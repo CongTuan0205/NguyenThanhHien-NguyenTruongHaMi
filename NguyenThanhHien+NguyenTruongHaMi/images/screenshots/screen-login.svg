@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="330" viewBox="0 0 900 330" font-family="Segoe UI, Arial, sans-serif">
+  <rect width="900" height="330" rx="16" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="2"/>
+
+  <!-- Left: Reader Login -->
+  <rect x="28" y="24" width="405" height="282" rx="14" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="52" y="58" fill="#1e1b4b" font-size="16" font-weight="bold">1. ĐĂNG NHẬP CỔNG ĐỘC GIẢ (OPAC)</text>
+  <text x="52" y="78" fill="#64748b" font-size="11">Xác thực Thẻ thư viện để lập phiếu mượn &amp; theo dõi hạn trả</text>
+
+  <text x="52" y="112" fill="#334155" font-size="11" font-weight="bold">MÃ THẺ ĐỘC GIẢ HOẶC EMAIL (@GMAIL.COM) *</text>
+  <rect x="52" y="120" width="356" height="40" rx="8" fill="#f8fafc" stroke="#94a3b8"/>
+  <text x="66" y="145" fill="#0f172a" font-size="13" font-weight="bold">nguyenvanan@gmail.com</text>
+
+  <text x="52" y="184" fill="#334155" font-size="11" font-weight="bold">MẬT KHẨU THẺ THÀNH VIÊN *</text>
+  <rect x="52" y="192" width="356" height="40" rx="8" fill="#f8fafc" stroke="#94a3b8"/>
+  <text x="66" y="217" fill="#0f172a" font-size="13" font-weight="bold">••••••••</text>
+
+  <rect x="52" y="248" width="356" height="40" rx="8" fill="#1e1b4b"/>
+  <text x="155" y="273" fill="#ffffff" font-size="13" font-weight="bold">Đăng Nhập Thẻ Thư Viện</text>
+
+  <!-- Right: Admin Login -->
+  <rect x="466" y="24" width="406" height="282" rx="14" fill="#0f172a" stroke="#334155"/>
+  <text x="490" y="58" fill="#fcd34d" font-size="16" font-weight="bold">2. ĐĂNG NHẬP QUẢN TRỊ NỘI BỘ (ADMIN)</text>
+  <text x="490" y="78" fill="#94a3b8" font-size="11">Dành riêng cho Thủ Thư, Thủ Kho, Thủ Quỹ &amp; Ban Giám Đốc</text>
+
+  <text x="490" y="112" fill="#cbd5e1" font-size="11" font-weight="bold">MÃ NHÂN VIÊN HOẶC TÀI KHOẢN CÁN BỘ *</text>
+  <rect x="490" y="120" width="356" height="40" rx="8" fill="#1e293b" stroke="#475569"/>
+  <text x="504" y="145" fill="#ffffff" font-size="13" font-weight="bold">admin (hoặc NV001, NV002, NV003)</text>
+
+  <text x="490" y="184" fill="#cbd5e1" font-size="11" font-weight="bold">MẬT KHẨU XÁC THỰC NỘI BỘ *</text>
+  <rect x="490" y="192" width="356" height="40" rx="8" fill="#1e293b" stroke="#475569"/>
+  <text x="504" y="217" fill="#ffffff" font-size="13" font-weight="bold">••••••••</text>
+
+  <rect x="490" y="248" width="356" height="40" rx="8" fill="#fbbf24"/>
+  <text x="570" y="273" fill="#0f172a" font-size="13" font-weight="bold">Đăng Nhập Hệ Thống Quản Trị</text>
+</svg>

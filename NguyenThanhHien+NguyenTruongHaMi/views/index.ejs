@@ -1,0 +1,130 @@
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="p-4 bg-white rounded-3 shadow-sm border-start border-5 border-primary">
+            <h3 class="fw-bold mb-1 text-primary">HỆ THỐNG QUẢN LÝ THƯ VIỆN</h3>
+            <p class="text-muted mb-0">Học phần: Công Nghệ Phần Mềm | Đề tài 1.1 Quản Lý Thư Viện</p>
+        </div>
+    </div>
+</div>
+
+<% if (error) { %>
+    <div class="alert alert-danger alert-dismissible fade show shadow-sm" role="alert">
+        <i class="fa-solid fa-triangle-exclamation me-2"></i> <strong>Cảnh báo kết nối:</strong> <%= error %>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+<% } %>
+
+<!-- Thống kê tổng quan -->
+<div class="row g-3 mb-4">
+    <div class="col-md-3">
+        <div class="stat-card bg-primary">
+            <div class="fw-bold text-uppercase fs-6">Nhân Viên</div>
+            <div class="fs-2 fw-bold"><%= stats.tongNV %></div>
+            <small>Đầy đủ 4 bộ phận theo QĐ1</small>
+            <i class="fa-solid fa-users stat-icon"></i>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-card bg-success">
+            <div class="fw-bold text-uppercase fs-6">Độc Giả</div>
+            <div class="fs-2 fw-bold"><%= stats.tongDG %></div>
+            <small>Loại X, Y (18 - 55 tuổi)</small>
+            <i class="fa-solid fa-id-card stat-icon"></i>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-card bg-info">
+            <div class="fw-bold text-uppercase fs-6">Tổng Đầu Sách</div>
+            <div class="fs-2 fw-bold"><%= stats.tongSach %></div>
+            <small>Thể loại A, B, C (<= 8 năm)</small>
+            <i class="fa-solid fa-book-bookmark stat-icon"></i>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-card <%= stats.quaHan > 0 ? 'bg-danger' : 'bg-secondary' %>">
+            <div class="fw-bold text-uppercase fs-6">Mượn Quá Hạn</div>
+            <div class="fs-2 fw-bold"><%= stats.quaHan %></div>
+            <small>Quá hạn 4 ngày theo QĐ4</small>
+            <i class="fa-solid fa-bell stat-icon"></i>
+        </div>
+    </div>
+</div>
+
+<!-- Sách Quá Hạn Cảnh Báo (Nếu có) -->
+<% if (overdueList && overdueList.length > 0) { %>
+    <div class="card border-danger mb-4 shadow-sm">
+        <div class="card-header bg-danger text-white fw-bold">
+            <i class="fa-solid fa-triangle-exclamation me-2"></i>DANH SÁCH SÁCH MƯỢN QUÁ HẠN (QĐ4: CHẶN MƯỢN TIẾP)
+        </div>
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th>Mã Phiếu</th>
+                        <th>Độc Giả</th>
+                        <th>Email</th>
+                        <th>Tên Sách</th>
+                        <th>Hạn Trả</th>
+                        <th>Trạng Thái</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% overdueList.forEach(item => { %>
+                        <tr class="table-danger">
+                            <td>#<%= item.MaPhieuMuon %></td>
+                            <td class="fw-bold"><%= item.TenDocGia %></td>
+                            <td><%= item.Email %></td>
+                            <td><%= item.TenSach %></td>
+                            <td><span class="badge bg-danger"><%= dayjs(item.HanTra).format('DD/MM/YYYY') %></span></td>
+                            <td><span class="badge bg-danger">Quá Hạn</span></td>
+                        </tr>
+                    <% }); %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+<% } %>
+
+<!-- Danh mục truy cập nhanh các Biểu Mẫu -->
+<div class="row g-4">
+    <div class="col-md-6 col-lg-3">
+        <div class="card h-100 shadow-sm border-0">
+            <div class="card-body text-center p-4">
+                <div class="text-primary mb-3"><i class="fa-solid fa-id-card-clip fa-3x"></i></div>
+                <h5 class="card-title fw-bold">BM1: Nhân Viên</h5>
+                <p class="card-text text-muted small">Tiếp nhận hồ sơ nhân viên theo 4 bộ phận, 5 chức vụ và bằng cấp (QĐ1).</p>
+                <a href="/nhan-vien" class="btn btn-outline-primary btn-sm rounded-pill px-3">Mở Biểu Mẫu 1</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 col-lg-3">
+        <div class="card h-100 shadow-sm border-0">
+            <div class="card-body text-center p-4">
+                <div class="text-success mb-3"><i class="fa-solid fa-address-card fa-3x"></i></div>
+                <h5 class="card-title fw-bold">BM2: Độc Giả</h5>
+                <p class="card-text text-muted small">Lập thẻ độc giả loại X, Y; tuổi 18-55; hạn 6 tháng; người lập là Thủ Thư (QĐ2).</p>
+                <a href="/doc-gia" class="btn btn-outline-success btn-sm rounded-pill px-3">Mở Biểu Mẫu 2</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 col-lg-3">
+        <div class="card h-100 shadow-sm border-0">
+            <div class="card-body text-center p-4">
+                <div class="text-info mb-3"><i class="fa-solid fa-book fa-3x"></i></div>
+                <h5 class="card-title fw-bold">BM3: Nhập Sách</h5>
+                <p class="card-text text-muted small">Tiếp nhận sách thể loại A, B, C; trong vòng 8 năm; người nhận là Thủ Kho (QĐ3).</p>
+                <a href="/sach" class="btn btn-outline-info btn-sm rounded-pill px-3">Mở Biểu Mẫu 3</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 col-lg-3">
+        <div class="card h-100 shadow-sm border-0">
+            <div class="card-body text-center p-4">
+                <div class="text-warning mb-3"><i class="fa-solid fa-hand-holding-hand fa-3x"></i></div>
+                <h5 class="card-title fw-bold">BM4: Mượn Sách</h5>
+                <p class="card-text text-muted small">Phiếu mượn: Thẻ còn hạn, không nợ quá hạn, tối đa 5 quyển trong 4 ngày (QĐ4).</p>
+                <a href="/muon-sach" class="btn btn-outline-warning btn-sm rounded-pill px-3">Mở Biểu Mẫu 4</a>
+            </div>
+        </div>
+    </div>
+</div>

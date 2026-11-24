@@ -1,0 +1,130 @@
+/* Style chung cho hệ thống Quản lý Thư viện */
+:root {
+    --primary-color: #2b5797;
+    --primary-hover: #1e3f73;
+    --bm-header-bg: #1f2937;
+    --bm-qd-bg: #fff7ed;
+    --bm-qd-border: #ea580c;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f3f4f6;
+    color: #1f2937;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.main-content {
+    flex: 1 0 auto;
+}
+
+/* Khung Biểu mẫu nghiệp vụ chuẩn BTL CNPM */
+.bm-card {
+    background: #fff;
+    border: 2px solid #111827;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    margin-bottom: 24px;
+}
+
+.bm-header {
+    background-color: var(--bm-header-bg);
+    color: #ffffff;
+    padding: 12px 20px;
+    font-size: 1.15rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.bm-badge {
+    background-color: #f59e0b;
+    color: #111827;
+    font-size: 0.85rem;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-weight: 800;
+}
+
+.bm-body {
+    padding: 24px;
+}
+
+/* Hộp Quy định nghiệp vụ (QĐ) chuẩn màu tài liệu */
+.qd-box {
+    background-color: #ffedd5;
+    border: 3px solid #c2410c;
+    border-radius: 6px;
+    padding: 14px 18px;
+    margin-bottom: 20px;
+    color: #7c2d12;
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+.qd-box strong {
+    color: #9a3412;
+    font-weight: 800;
+}
+
+/* Bảng hiển thị danh sách */
+.table-custom {
+    border-collapse: separate;
+    border-spacing: 0;
+    width: 100%;
+}
+
+.table-custom thead th {
+    background-color: #1f2937;
+    color: #ffffff;
+    font-weight: 600;
+    padding: 12px 14px;
+    border: none;
+    font-size: 0.9rem;
+}
+
+.table-custom tbody td {
+    padding: 12px 14px;
+    vertical-align: middle;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.table-custom tbody tr:hover {
+    background-color: #f9fafb;
+}
+
+/* Thẻ thống kê Dashboard */
+.stat-card {
+    border: none;
+    border-radius: 10px;
+    color: white;
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-4px);
+}
+
+.stat-icon {
+    font-size: 3rem;
+    opacity: 0.25;
+    position: absolute;
+    right: 15px;
+    bottom: 10px;
+}
+
+/* Nút bấm */
+.btn-action {
+    padding: 8px 18px;
+    font-weight: 600;
+    border-radius: 6px;
+}

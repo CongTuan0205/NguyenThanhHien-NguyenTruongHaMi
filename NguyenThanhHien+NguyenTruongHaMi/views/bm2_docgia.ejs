@@ -1,0 +1,144 @@
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h4 class="fw-bold text-dark mb-0"><i class="fa-solid fa-address-card text-success me-2"></i>LẬP THẺ ĐỘC GIẢ</h4>
+    <a href="/" class="btn btn-outline-secondary btn-sm"><i class="fa-solid fa-arrow-left me-1"></i>Về trang chủ</a>
+</div>
+
+<!-- Hộp Thông báo QĐ2 -->
+<div class="qd-box shadow-sm">
+    <div class="fw-bold mb-1"><i class="fa-solid fa-circle-exclamation me-1"></i>QUI ĐỊNH 2 (QĐ2):</div>
+    <div>Có 2 loại độc giả (<strong>X, Y</strong>). Tuổi độc giả từ <strong>18 đến 55 tuổi</strong>. Thẻ có giá trị <strong>6 tháng</strong>. Người lập thẻ độc giả <strong>phải là nhân viên thuộc bộ phận Thủ Thư</strong>.</div>
+</div>
+
+<% if (error) { %>
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <i class="fa-solid fa-triangle-exclamation me-2"></i><%= error %>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+<% } %>
+
+<% if (success) { %>
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <i class="fa-solid fa-circle-check me-2"></i><%= success %>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+<% } %>
+
+<!-- Khung Biểu Mẫu 2 (BM2) -->
+<div class="bm-card">
+    <div class="bm-header">
+        <span>BM2: THẺ ĐỘC GIẢ</span>
+        <span class="bm-badge">Biểu mẫu chuẩn</span>
+    </div>
+    <div class="bm-body">
+        <form id="formDocGia" action="/doc-gia" method="POST">
+            <div class="row g-3">
+                <div class="col-md-5">
+                    <label class="form-label fw-bold">Họ và tên: <span class="text-danger">*</span></label>
+                    <input type="text" name="hoTen" class="form-control" placeholder="Nhập họ tên độc giả..." required>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label fw-bold">Loại độc giả: <span class="text-danger">*</span></label>
+                    <select name="loaiDocGia" class="form-select" required>
+                        <option value="">-- Chọn loại --</option>
+                        <option value="X">Loại X</option>
+                        <option value="Y">Loại Y</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label fw-bold">Ngày sinh: <span class="text-danger">*</span> (18 - 55 tuổi)</label>
+                    <input type="date" id="ngaySinh" name="ngaySinh" class="form-control" required>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label fw-bold">Địa chỉ:</label>
+                    <input type="text" name="diaChi" class="form-control" placeholder="Địa chỉ cư trú độc giả...">
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label fw-bold">Email: <span class="badge bg-primary-subtle text-primary border ms-1">Định dạng @gmail.com</span></label>
+                    <input type="email" name="email" id="email" class="form-control" placeholder="nguyenvana@gmail.com" pattern=".+@gmail\.com" title="Vui lòng nhập email đúng cấu trúc @gmail.com">
+                    <small class="text-muted"><i class="fa-solid fa-circle-info me-1"></i>Email bắt buộc kết thúc bằng <strong>@gmail.com</strong></small>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label fw-bold">Ngày lập thẻ: <span class="text-danger">*</span></label>
+                    <input type="date" id="ngayLapThe" name="ngayLapThe" class="form-control" value="<%= dayjs().format('YYYY-MM-DD') %>" required>
+                    <small class="text-muted"><i class="fa-solid fa-clock me-1"></i>Hạn thẻ tự động cộng 6 tháng theo QĐ2.</small>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label fw-bold">Người lập: <span class="text-danger">*</span> (Phải là Thủ Thư)</label>
+                    <select id="maNVLap" name="maNVLap" class="form-select" required>
+                        <option value="">-- Chọn nhân viên lập thẻ --</option>
+                        <% nhanViens.forEach(nv => { %>
+                            <option value="<%= nv.MaNV %>" data-bophan="<%= nv.BoPhan %>">
+                                <%= nv.HoTen %> (<%= nv.BoPhan %> - <%= nv.ChucVu %>)
+                            </option>
+                        <% }); %>
+                    </select>
+                </div>
+
+                <div class="col-12 text-end mt-4">
+                    <button type="reset" class="btn btn-secondary me-2"><i class="fa-solid fa-rotate me-1"></i>Làm lại</button>
+                    <button type="submit" class="btn btn-success"><i class="fa-solid fa-address-card me-1"></i>Lập Thẻ Độc Giả</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Danh sách độc giả -->
+<div class="card shadow-sm border-0">
+    <div class="card-header bg-white py-3">
+        <h5 class="fw-bold mb-0 text-dark"><i class="fa-solid fa-list me-2"></i>Danh Sách Thẻ Độc Giả Đã Cấp</h5>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+            <thead class="table-dark">
+                <tr>
+                    <th>Mã ĐG</th>
+                    <th>Họ và Tên</th>
+                    <th>Loại</th>
+                    <th>Ngày Sinh</th>
+                    <th>Email / Địa Chỉ</th>
+                    <th>Ngày Lập</th>
+                    <th>Ngày Hết Hạn</th>
+                    <th>Người Lập</th>
+                    <th>Tình Trạng Thẻ</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% if (docGias && docGias.length > 0) { %>
+                    <% docGias.forEach(dg => { 
+                        const isExpired = dayjs().isAfter(dayjs(dg.NgayHetHan), 'day');
+                    %>
+                        <tr>
+                            <td><span class="badge bg-secondary">DG<%= String(dg.MaDocGia).padStart(4, '0') %></span></td>
+                            <td class="fw-bold"><%= dg.HoTen %></td>
+                            <td><span class="badge bg-primary">Loại <%= dg.LoaiDocGia %></span></td>
+                            <td><%= dayjs(dg.NgaySinh).format('DD/MM/YYYY') %></td>
+                            <td>
+                                <div><i class="fa-regular fa-envelope me-1 text-muted"></i><%= dg.Email || '---' %></div>
+                                <small class="text-muted"><%= dg.DiaChi || '' %></small>
+                            </td>
+                            <td><%= dayjs(dg.NgayLapThe).format('DD/MM/YYYY') %></td>
+                            <td class="fw-bold"><%= dayjs(dg.NgayHetHan).format('DD/MM/YYYY') %></td>
+                            <td>
+                                <span class="badge bg-light text-dark border"><%= dg.TenNguoiLap %></span>
+                            </td>
+                            <td>
+                                <% if (isExpired) { %>
+                                    <span class="badge bg-danger">Hết hạn</span>
+                                <% } else { %>
+                                    <span class="badge bg-success">Còn hạn</span>
+                                <% } %>
+                            </td>
+                        </tr>
+                    <% }); %>
+                <% } else { %>
+                    <tr>
+                        <td colspan="9" class="text-center py-4 text-muted">Chưa có độc giả nào.</td>
+                    </tr>
+                <% } %>
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="390" viewBox="0 0 900 390" font-family="Segoe UI, Arial, sans-serif">
+  <rect width="900" height="390" rx="16" fill="#f8fafc" stroke="#cbd5e1" stroke-width="2"/>
+  <rect width="900" height="48" rx="16" fill="#1e1b4b"/>
+  <text x="24" y="30" fill="#ffffff" font-size="15" font-weight="bold">BM4: PHIẾU MƯỢN SÁCH &amp; KIỂM TRA TỰ ĐỘNG 4 ĐIỀU KIỆN QĐ4 (TỐI ĐA 5 QUYỂN / 4 NGÀY)</text>
+
+  <!-- Reader & Dates -->
+  <rect x="24" y="66" width="320" height="54" rx="10" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="36" y="84" fill="#64748b" font-size="11" font-weight="bold">HỌ TÊN ĐỘC GIẢ MƯỢN SÁCH (BM4) *</text>
+  <text x="36" y="106" fill="#0f172a" font-size="13" font-weight="bold">DG001 — Nguyễn Văn An (Hạn thẻ: 2027-10-01)</text>
+
+  <rect x="360" y="66" width="240" height="54" rx="10" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="372" y="84" fill="#64748b" font-size="11" font-weight="bold">NGÀY MƯỢN (BM4) *</text>
+  <text x="372" y="106" fill="#0f172a" font-size="13" font-weight="bold">2026-11-22</text>
+
+  <rect x="616" y="66" width="260" height="54" rx="10" fill="#eef2ff" stroke="#4338ca" stroke-width="2"/>
+  <text x="628" y="84" fill="#312e81" font-size="11" font-weight="bold">NGÀY ĐĂNG KÝ TRẢ (QĐ4 ≤ 4 NGÀY) *</text>
+  <text x="628" y="106" fill="#1e1b4b" font-size="13" font-weight="bold">2026-11-26 (4 ngày - Hợp lệ QĐ4)</text>
+
+  <!-- QĐ4 Status Banner -->
+  <rect x="24" y="132" width="852" height="44" rx="10" fill="#ecfdf5" stroke="#10b981"/>
+  <text x="40" y="159" fill="#065f46" font-size="12" font-weight="bold">✓ ĐỦ ĐIỀU KIỆN QĐ4: (1) Thẻ còn hạn • (2) Không có sách quá hạn • (3) Sách còn sẵn • (4) Số lượng 2/5 cuốn, thời hạn 4/4 ngày</text>
+
+  <!-- 5-column BM4 Table (Exact match to Page 4 PDF) -->
+  <rect x="24" y="190" width="852" height="176" rx="10" fill="#ffffff" stroke="#cbd5e1"/>
+  <rect x="24" y="190" width="852" height="36" rx="8" fill="#0f172a"/>
+  <text x="42" y="213" fill="#ffffff" font-size="12" font-weight="bold">STT</text>
+  <text x="110" y="213" fill="#ffffff" font-size="12" font-weight="bold">MÃ SÁCH</text>
+  <text x="230" y="213" fill="#ffffff" font-size="12" font-weight="bold">TÊN SÁCH</text>
+  <text x="560" y="213" fill="#ffffff" font-size="12" font-weight="bold">THỂ LOẠI</text>
+  <text x="680" y="213" fill="#ffffff" font-size="12" font-weight="bold">TÁC GIẢ</text>
+
+  <text x="46" y="256" fill="#0f172a" font-size="13" font-weight="bold">1</text>
+  <text x="110" y="256" fill="#312e81" font-size="13" font-weight="bold">MS003</text>
+  <text x="230" y="256" fill="#0f172a" font-size="13" font-weight="bold">Giáo Trình Giáo Dục Học - Tập Một</text>
+  <text x="560" y="256" fill="#0369a1" font-size="13" font-weight="bold">Loại A</text>
+  <text x="680" y="256" fill="#334155" font-size="12">Phan Thị Hồng Vinh</text>
+
+  <line x1="24" y1="276" x2="876" y2="276" stroke="#e2e8f0"/>
+  <text x="46" y="314" fill="#0f172a" font-size="13" font-weight="bold">2</text>
+  <text x="110" y="314" fill="#312e81" font-size="13" font-weight="bold">MS023</text>
+  <text x="230" y="314" fill="#0f172a" font-size="13" font-weight="bold">Thông Điệp Từ Những Vì Sao (Starry Messenger)</text>
+  <text x="560" y="314" fill="#4338ca" font-size="13" font-weight="bold">Loại B</text>
+  <text x="680" y="314" fill="#334155" font-size="12">Neil deGrasse Tyson</text>
+</svg>

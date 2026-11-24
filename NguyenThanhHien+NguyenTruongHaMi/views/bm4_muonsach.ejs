@@ -1,0 +1,168 @@
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h4 class="fw-bold text-dark mb-0"><i class="fa-solid fa-hand-holding-hand text-warning me-2"></i>CHO MƯỢN SÁCH</h4>
+    <div>
+        <a href="/tra-sach" class="btn btn-outline-info btn-sm me-2"><i class="fa-solid fa-rotate-left me-1"></i>Chuyển đến màn hình Trả Sách</a>
+        <a href="/" class="btn btn-outline-secondary btn-sm"><i class="fa-solid fa-arrow-left me-1"></i>Về trang chủ</a>
+    </div>
+</div>
+
+<!-- Hộp Thông báo QĐ4 -->
+<div class="qd-box shadow-sm">
+    <div class="fw-bold mb-1"><i class="fa-solid fa-circle-exclamation me-1"></i>QUI ĐỊNH 4 (QĐ4):</div>
+    <div>Chỉ cho mượn với <strong>thẻ còn hạn</strong>, <strong>không có sách mượn quá hạn</strong>, và <strong>sách không có người đang mượn</strong>. Mỗi độc giả mượn <strong>tối đa 5 quyển sách trong 4 ngày</strong>.</div>
+</div>
+
+<% if (error) { %>
+    <div class="alert alert-danger alert-dismissible fade show shadow-sm" role="alert">
+        <i class="fa-solid fa-triangle-exclamation me-2"></i><strong>Lỗi vi phạm quy định:</strong> <%= error %>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+<% } %>
+
+<% if (success) { %>
+    <div class="alert alert-success alert-dismissible fade show shadow-sm" role="alert">
+        <i class="fa-solid fa-circle-check me-2"></i><%= success %>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+<% } %>
+
+<!-- Khung Biểu Mẫu 4 (BM4) -->
+<div class="bm-card">
+    <div class="bm-header">
+        <span>BM4: PHIẾU MƯỢN SÁCH</span>
+        <span class="bm-badge">Biểu mẫu chuẩn</span>
+    </div>
+    <div class="bm-body">
+        <form id="formMuonSach" action="/muon-sach" method="POST">
+            <div class="row g-3 mb-4">
+                <div class="col-md-12">
+                    <label class="form-label fw-bold">Họ tên độc giả: <span class="text-danger">*</span></label>
+                    <select name="maDocGia" class="form-select" required>
+                        <option value="">-- Chọn độc giả làm phiếu mượn --</option>
+                        <% docGias.forEach(dg => { 
+                            const isExpired = dayjs().isAfter(dayjs(dg.NgayHetHan), 'day');
+                        %>
+                            <option value="<%= dg.MaDocGia %>">
+                                <%= dg.HoTen %> (Mã: DG<%= String(dg.MaDocGia).padStart(4, '0') %> | Loại: <%= dg.LoaiDocGia %> | Hạn thẻ: <%= dayjs(dg.NgayHetHan).format('DD/MM/YYYY') %> <%= isExpired ? '- ĐÃ HẾT HẠN' : '' %>)
+                            </option>
+                        <% }); %>
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label fw-bold">Ngày mượn: <span class="text-danger">*</span></label>
+                    <input type="date" id="ngayMuon" name="ngayMuon" class="form-control" value="<%= dayjs().format('YYYY-MM-DD') %>" required onchange="const d = new Date(this.value); d.setDate(d.getDate() + 4); document.getElementById('hanTra').value = d.toISOString().split('T')[0];">
+                    <small class="text-muted"><i class="fa-solid fa-calendar-day me-1"></i>Mặc định cộng 4 ngày theo QĐ4.</small>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label fw-bold text-primary"><i class="fa-solid fa-calendar-check me-1"></i>Đăng ký ngày hẹn trả: <span class="text-danger">*</span></label>
+                    <input type="date" id="hanTra" name="hanTra" class="form-control fw-bold text-primary" value="<%= dayjs().add(4, 'day').format('YYYY-MM-DD') %>" required>
+                    <small class="text-muted"><i class="fa-solid fa-circle-info me-1"></i>Bạn có thể chủ động điều chỉnh ngày trả phù hợp.</small>
+                </div>
+            </div>
+
+            <!-- Bảng danh sách sách để chọn mượn (Bám sát bảng STT, Mã Sách, Tên Sách, Thể Loại, Tác Giả) -->
+            <div class="mb-3">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <label class="form-label fw-bold mb-0">Danh sách sách sẵn sàng cho mượn: (Tối đa 5 cuốn/độc giả)</label>
+                    <span class="badge bg-primary">Chọn tối đa 5 quyển</span>
+                </div>
+                
+                <div class="table-responsive border rounded">
+                    <table class="table table-bordered table-hover align-middle mb-0">
+                        <thead class="table-secondary">
+                            <tr>
+                                <th class="text-center" style="width: 50px;">Chọn</th>
+                                <th class="text-center" style="width: 60px;">STT</th>
+                                <th>Mã Sách</th>
+                                <th>Tên Sách</th>
+                                <th>Thể Loại</th>
+                                <th>Tác Giả</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% if (sachCons && sachCons.length > 0) { %>
+                                <% sachCons.forEach((s, idx) => { %>
+                                    <tr>
+                                        <td class="text-center">
+                                            <input class="form-check-input" type="checkbox" name="maSach" value="<%= s.MaSach %>" id="sach_<%= s.MaSach %>">
+                                        </td>
+                                        <td class="text-center fw-bold"><%= idx + 1 %></td>
+                                        <td><label for="sach_<%= s.MaSach %>" class="mb-0 fw-semibold">MS<%= String(s.MaSach).padStart(4, '0') %></label></td>
+                                        <td><label for="sach_<%= s.MaSach %>" class="mb-0 fw-bold text-dark"><%= s.TenSach %></label></td>
+                                        <td><span class="badge bg-info text-dark">Loại <%= s.TheLoai %></span></td>
+                                        <td><%= s.TacGia %></td>
+                                    </tr>
+                                <% }); %>
+                            <% } else { %>
+                                <tr>
+                                    <td colspan="6" class="text-center py-3 text-danger">Hiện không còn sách nào sẵn sàng trong kho (tất cả đang được mượn)!</td>
+                                </tr>
+                            <% } %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="text-end mt-4">
+                <button type="reset" class="btn btn-secondary me-2"><i class="fa-solid fa-rotate me-1"></i>Làm lại</button>
+                <button type="submit" class="btn btn-warning fw-bold px-4"><i class="fa-solid fa-file-pen me-1"></i>Lập Phiếu Mượn Sách</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Danh sách phiếu mượn đã lập gần đây -->
+<div class="card shadow-sm border-0">
+    <div class="card-header bg-white py-3">
+        <h5 class="fw-bold mb-0 text-dark"><i class="fa-solid fa-clock-rotate-left me-2"></i>Lịch Sử Phiếu Mượn Gần Đây</h5>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+            <thead class="table-dark">
+                <tr>
+                    <th>Mã Phiếu</th>
+                    <th>Độc Giả</th>
+                    <th>Ngày Mượn</th>
+                    <th>Hạn Trả (4 ngày)</th>
+                    <th>Số Sách Mượn</th>
+                    <th>Chưa Trả</th>
+                    <th>Thao Tác</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% if (phieuMuons && phieuMuons.length > 0) { %>
+                    <% phieuMuons.forEach(pm => { 
+                        const isOverdue = pm.SoSachChuaTra > 0 && dayjs().isAfter(dayjs(pm.HanTra), 'day');
+                    %>
+                        <tr class="<%= isOverdue ? 'table-danger' : '' %>">
+                            <td><span class="badge bg-secondary">#<%= pm.MaPhieuMuon %></span></td>
+                            <td class="fw-bold"><%= pm.TenDocGia %> (<%= pm.LoaiDocGia %>)</td>
+                            <td><%= dayjs(pm.NgayMuon).format('DD/MM/YYYY') %></td>
+                            <td class="fw-bold">
+                                <%= dayjs(pm.HanTra).format('DD/MM/YYYY') %>
+                                <% if (isOverdue) { %>
+                                    <span class="badge bg-danger ms-1">Quá hạn</span>
+                                <% } %>
+                            </td>
+                            <td><span class="badge bg-primary"><%= pm.SoSachMuon %> cuốn</span></td>
+                            <td>
+                                <% if (pm.SoSachChuaTra > 0) { %>
+                                    <span class="badge bg-warning text-dark"><%= pm.SoSachChuaTra %> cuốn</span>
+                                <% } else { %>
+                                    <span class="badge bg-success">Đã trả hết</span>
+                                <% } %>
+                            </td>
+                            <td>
+                                <a href="/tra-sach" class="btn btn-sm btn-outline-info">Chi tiết / Trả</a>
+                            </td>
+                        </tr>
+                    <% }); %>
+                <% } else { %>
+                    <tr>
+                        <td colspan="7" class="text-center py-4 text-muted">Chưa có phiếu mượn nào được lập.</td>
+                    </tr>
+                <% } %>
+            </tbody>
+        </table>
+    </div>
+</div>

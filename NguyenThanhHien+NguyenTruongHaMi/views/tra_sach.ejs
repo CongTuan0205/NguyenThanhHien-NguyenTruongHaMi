@@ -1,0 +1,97 @@
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h4 class="fw-bold text-dark mb-0"><i class="fa-solid fa-rotate-left text-info me-2"></i>QUẢN LÝ TRẢ SÁCH</h4>
+    <div>
+        <a href="/muon-sach" class="btn btn-outline-warning btn-sm me-2"><i class="fa-solid fa-hand-holding-hand me-1"></i>Về Lập Phiếu Mượn</a>
+        <a href="/" class="btn btn-outline-secondary btn-sm"><i class="fa-solid fa-arrow-left me-1"></i>Về trang chủ</a>
+    </div>
+</div>
+
+<div class="alert alert-info shadow-sm" role="alert">
+    <i class="fa-solid fa-circle-info me-2"></i><strong>Lưu ý nghiệp vụ:</strong> Khi độc giả đem sách trả, bấm nút <strong>"Xác nhận trả"</strong> để hệ thống giải phóng trạng thái sách về lại <strong>"Còn"</strong> và ghi nhận ngày trả. Nếu sách quá hạn 4 ngày, hệ thống sẽ cảnh báo đỏ!
+</div>
+
+<% if (error) { %>
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <i class="fa-solid fa-triangle-exclamation me-2"></i><%= error %>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+<% } %>
+
+<% if (success) { %>
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <i class="fa-solid fa-circle-check me-2"></i><%= success %>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+<% } %>
+
+<!-- Bảng chi tiết mượn & trả sách -->
+<div class="card shadow-sm border-0">
+    <div class="card-header bg-dark text-white py-3">
+        <h5 class="fw-bold mb-0"><i class="fa-solid fa-list-check me-2"></i>Danh Sách Sách Đang Mượn / Đã Trả</h5>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+            <thead class="table-secondary">
+                <tr>
+                    <th>Mã Phiếu</th>
+                    <th>Độc Giả</th>
+                    <th>Tên Sách</th>
+                    <th>Thể Loại</th>
+                    <th>Ngày Mượn</th>
+                    <th>Hạn Trả</th>
+                    <th>Trạng Thái</th>
+                    <th>Ngày Trả</th>
+                    <th>Hành Động</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% if (danhSachMuon && danhSachMuon.length > 0) { %>
+                    <% danhSachMuon.forEach(item => { 
+                        const isOverdue = item.TrangThai === 'Đang mượn' && dayjs().isAfter(dayjs(item.HanTra), 'day');
+                    %>
+                        <tr class="<%= isOverdue ? 'table-danger' : '' %>">
+                            <td><span class="badge bg-secondary">#<%= item.MaPhieuMuon %></span></td>
+                            <td class="fw-bold"><%= item.TenDocGia %></td>
+                            <td><%= item.TenSach %> <small class="text-muted">(MS<%= item.MaSach %>)</small></td>
+                            <td><span class="badge bg-info text-dark"><%= item.TheLoai %></span></td>
+                            <td><%= dayjs(item.NgayMuon).format('DD/MM/YYYY') %></td>
+                            <td class="fw-bold">
+                                <%= dayjs(item.HanTra).format('DD/MM/YYYY') %>
+                                <% if (isOverdue) { %>
+                                    <span class="badge bg-danger ms-1">Quá hạn</span>
+                                <% } %>
+                            </td>
+                            <td>
+                                <% if (item.TrangThai === 'Đang mượn') { %>
+                                    <span class="badge bg-warning text-dark"><i class="fa-solid fa-clock me-1"></i>Đang mượn</span>
+                                <% } else { %>
+                                    <span class="badge bg-success"><i class="fa-solid fa-check me-1"></i>Đã trả</span>
+                                <% } %>
+                            </td>
+                            <td>
+                                <%= item.NgayTra ? dayjs(item.NgayTra).format('DD/MM/YYYY') : '---' %>
+                            </td>
+                            <td>
+                                <% if (item.TrangThai === 'Đang mượn') { %>
+                                    <form action="/tra-sach" method="POST" style="display:inline;" onsubmit="return confirm('Xác nhận độc giả đã trả cuốn sách này?');">
+                                        <input type="hidden" name="maPhieuMuon" value="<%= item.MaPhieuMuon %>">
+                                        <input type="hidden" name="maSach" value="<%= item.MaSach %>">
+                                        <button type="submit" class="btn btn-sm btn-success">
+                                            <i class="fa-solid fa-check me-1"></i>Xác nhận trả
+                                        </button>
+                                    </form>
+                                <% } else { %>
+                                    <button class="btn btn-sm btn-outline-secondary" disabled>Đã hoàn tất</button>
+                                <% } %>
+                            </td>
+                        </tr>
+                    <% }); %>
+                <% } else { %>
+                    <tr>
+                        <td colspan="9" class="text-center py-4 text-muted">Chưa có dữ liệu mượn sách nào.</td>
+                    </tr>
+                <% } %>
+            </tbody>
+        </table>
+    </div>
+</div>

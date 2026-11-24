@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="420" viewBox="0 0 900 420" font-family="Segoe UI, Arial, sans-serif">
+  <rect width="900" height="420" rx="16" fill="#f8fafc" stroke="#cbd5e1" stroke-width="2"/>
+  <rect width="900" height="48" rx="16" fill="#0f172a"/>
+  <text x="24" y="30" fill="#f8fafc" font-size="15" font-weight="bold">BM1: TIẾP NHẬN HỒ SƠ NHÂN VIÊN MỚI (TUÂN THỦ QUY ĐỊNH 1 - QĐ1)</text>
+  <text x="720" y="30" fill="#fcd34d" font-size="12" font-weight="bold">Cổng Quản Trị Nội Bộ</text>
+
+  <!-- Form Inputs (7 fields of BM1) -->
+  <rect x="24" y="66" width="265" height="54" rx="10" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="36" y="84" fill="#64748b" font-size="11" font-weight="bold">1. HỌ VÀ TÊN NHÂN VIÊN *</text>
+  <text x="36" y="106" fill="#0f172a" font-size="14" font-weight="bold">Nguyễn Minh Hoàng</text>
+
+  <rect x="308" y="66" width="280" height="54" rx="10" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="320" y="84" fill="#64748b" font-size="11" font-weight="bold">2. ĐỊA CHỈ (BM1) *</text>
+  <text x="320" y="106" fill="#0f172a" font-size="14" font-weight="bold">12 Lê Duẩn, Quận 1, TP.HCM</text>
+
+  <rect x="606" y="66" width="270" height="54" rx="10" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="618" y="84" fill="#64748b" font-size="11" font-weight="bold">3. NGÀY SINH *</text>
+  <text x="618" y="106" fill="#0f172a" font-size="14" font-weight="bold">1988-05-14</text>
+
+  <rect x="24" y="134" width="200" height="54" rx="10" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="36" y="152" fill="#64748b" font-size="11" font-weight="bold">4. ĐIỆN THOẠI (BM1) *</text>
+  <text x="36" y="174" fill="#0f172a" font-size="14" font-weight="bold">0901234567</text>
+
+  <rect x="240" y="134" width="210" height="54" rx="10" fill="#eef2ff" stroke="#6366f1"/>
+  <text x="252" y="152" fill="#4338ca" font-size="11" font-weight="bold">5. BẰNG CẤP (6 LOẠI QĐ1)</text>
+  <text x="252" y="174" fill="#1e1b4b" font-size="14" font-weight="bold">Thạc sĩ ▾</text>
+
+  <rect x="466" y="134" width="200" height="54" rx="10" fill="#eef2ff" stroke="#6366f1"/>
+  <text x="478" y="152" fill="#4338ca" font-size="11" font-weight="bold">6. BỘ PHẬN (4 BỘ PHẬN QĐ1)</text>
+  <text x="478" y="174" fill="#1e1b4b" font-size="14" font-weight="bold">Ban Giám Đốc ▾</text>
+
+  <rect x="682" y="134" width="194" height="54" rx="10" fill="#eef2ff" stroke="#6366f1"/>
+  <text x="694" y="152" fill="#4338ca" font-size="11" font-weight="bold">7. CHỨC VỤ (5 CHỨC VỤ QĐ1)</text>
+  <text x="694" y="174" fill="#1e1b4b" font-size="14" font-weight="bold">Giám Đốc ▾</text>
+
+  <!-- Table BM1 -->
+  <rect x="24" y="206" width="852" height="190" rx="10" fill="#ffffff" stroke="#cbd5e1"/>
+  <rect x="24" y="206" width="852" height="36" rx="8" fill="#1e1b4b"/>
+  <text x="38" y="229" fill="#ffffff" font-size="12" font-weight="bold">MÃ NV</text>
+  <text x="115" y="229" fill="#ffffff" font-size="12" font-weight="bold">HỌ TÊN &amp; ĐỊA CHỈ</text>
+  <text x="360" y="229" fill="#ffffff" font-size="12" font-weight="bold">NGÀY SINH &amp; SĐT</text>
+  <text x="520" y="229" fill="#ffffff" font-size="12" font-weight="bold">BẰNG CẤP</text>
+  <text x="630" y="229" fill="#ffffff" font-size="12" font-weight="bold">BỘ PHẬN</text>
+  <text x="760" y="229" fill="#ffffff" font-size="12" font-weight="bold">CHỨC VỤ</text>
+
+  <text x="38" y="268" fill="#312e81" font-size="13" font-weight="bold">NV001</text>
+  <text x="115" y="268" fill="#0f172a" font-size="13" font-weight="bold">Nguyễn Minh Hoàng (12 Lê Duẩn, Q.1)</text>
+  <text x="360" y="268" fill="#334155" font-size="12">1988-05-14 • 0901234567</text>
+  <text x="520" y="268" fill="#0f172a" font-size="12" font-weight="bold">Thạc sĩ</text>
+  <text x="630" y="268" fill="#312e81" font-size="12" font-weight="bold">Ban Giám Đốc</text>
+  <text x="760" y="268" fill="#0f172a" font-size="12">Giám Đốc</text>
+
+  <line x1="24" y1="284" x2="876" y2="284" stroke="#e2e8f0"/>
+  <text x="38" y="312" fill="#312e81" font-size="13" font-weight="bold">NV002</text>
+  <text x="115" y="312" fill="#0f172a" font-size="13" font-weight="bold">Trần Thị Thu Hà (45 NTMK, Q.3)</text>
+  <text x="360" y="312" fill="#334155" font-size="12">1995-08-20 • 0912345678</text>
+  <text x="520" y="312" fill="#0f172a" font-size="12" font-weight="bold">Đại học</text>
+  <text x="630" y="312" fill="#047857" font-size="12" font-weight="bold">Thủ Thư</text>
+  <text x="760" y="312" fill="#0f172a" font-size="12">Nhân Viên</text>
+
+  <line x1="24" y1="328" x2="876" y2="328" stroke="#e2e8f0"/>
+  <text x="38" y="356" fill="#312e81" font-size="13" font-weight="bold">NV003</text>
+  <text x="115" y="356" fill="#0f172a" font-size="13" font-weight="bold">Lê Quốc Bảo (88 Võ Văn Ngân, Thủ Đức)</text>
+  <text x="360" y="356" fill="#334155" font-size="12">1993-11-02 • 0923456789</text>
+  <text x="520" y="356" fill="#0f172a" font-size="12" font-weight="bold">Đại học</text>
+  <text x="630" y="356" fill="#b45309" font-size="12" font-weight="bold">Thủ Kho</text>
+  <text x="760" y="356" fill="#0f172a" font-size="12">Trưởng Phòng</text>
+</svg>

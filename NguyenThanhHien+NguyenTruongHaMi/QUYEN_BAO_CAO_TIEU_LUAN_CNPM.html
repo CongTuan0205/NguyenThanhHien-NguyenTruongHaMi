@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quyển Báo Cáo Bài Tập Lớn CNPM — Đề Tài 1.1: Quản Lý Thư Viện</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      color: #0f172a;
+      background: #e2e8f0;
+    }
+    @media print {
+      body { background: #ffffff; }
+      .no-print { display: none !important; }
+      .page-container { box-shadow: none !important; border: none !important; margin: 0 !important; max-width: 100% !important; padding: 1.5rem !important; }
+      .break-inside-avoid { break-inside: avoid; }
+    }
+    pre {
+      background: #0f172a;
+      color: #e2e8f0;
+      padding: 0.9rem 1.1rem;
+      border-radius: 0.75rem;
+      overflow-x: auto;
+      font-size: 0.75rem;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+<body class="py-8 px-4">
+
+  <!-- THANH CÔNG CỤ IN BÁO CÁO / MỞ PHẦN MỀM -->
+  <div class="no-print max-w-5xl mx-auto mb-6 bg-slate-900 text-white p-4 rounded-2xl shadow-lg flex flex-wrap items-center justify-between gap-3 sticky top-3 z-50">
+    <div>
+      <div class="text-xs text-amber-300 font-bold uppercase">Học Phần Công Nghệ Phần Mềm • Đề Tài 1.1</div>
+      <div class="text-sm font-bold">Quyển Báo Cáo Bài Tập Lớn — Nguyễn Thanh Hiền & Nguyễn Trương Hà Mi</div>
+    </div>
+    <div class="flex items-center gap-2.5">
+      <a href="index.html" target="_blank" class="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs transition flex items-center gap-1.5">
+        <i class="fa-solid fa-play"></i> Mở Phần Mềm (index.html)
+      </a>
+      <button onclick="window.print()" class="px-4 py-2 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-extrabold text-xs transition flex items-center gap-1.5">
+        <i class="fa-solid fa-print"></i> In Báo Cáo / Xuất PDF
+      </button>
+    </div>
+  </div>
+
+  <!-- NỘI DUNG QUYỂN BÁO CÁO TIỂU LUẬN -->
+  <div class="page-container max-w-5xl mx-auto bg-white rounded-3xl shadow-xl border border-slate-200 p-8 sm:p-12 space-y-10">
+
+    <!-- TRANG BÌA -->
+    <div class="text-center border-2 border-slate-900 rounded-2xl p-8 sm:p-12 space-y-5">
+      <div class="text-xs sm:text-sm font-bold uppercase tracking-widest text-slate-600">QUYỂN BÁO CÁO BÀI TẬP LỚN – HỌC PHẦN CÔNG NGHỆ PHẦN MỀM</div>
+      <h1 class="text-2xl sm:text-4xl font-black text-indigo-950 leading-tight uppercase">
+        ĐỀ TÀI 1.1: THIẾT KẾ PHẦN MỀM QUẢN LÝ THƯ VIỆN
+      </h1>
+      <div class="w-24 h-1 bg-indigo-950 mx-auto"></div>
+      <p class="text-sm text-slate-600 max-w-2xl mx-auto">
+        Phân tích Thiết kế Hệ thống (PTTKHT), Phân tích Thiết kế Hướng đối tượng (PTTKĐT), Thiết kế Cơ sở dữ liệu SQL Server và Xây dựng Phần mềm thực tế tuân thủ 100% Biểu mẫu BM1, BM2, BM3, BM4 & Quy định QĐ1, QĐ2, QĐ3, QĐ4.
+      </p>
+      <div class="pt-4 grid grid-cols-1 sm:grid-cols-2 gap-4 text-left max-w-xl mx-auto text-xs sm:text-sm bg-slate-50 p-5 rounded-xl border border-slate-200">
+        <div>
+          <span class="text-slate-400 font-semibold block mb-1">Sinh viên thực hiện:</span>
+          <strong class="text-slate-900 block">1. Nguyễn Thanh Hiền</strong>
+          <strong class="text-slate-900 block">2. Nguyễn Trương Hà Mi</strong>
+          <span class="text-[11px] text-slate-500 mt-1 block">File nộp: <code>NguyenThanhHien+NguyenTruongHaMi.rar</code></span>
+        </div>
+        <div>
+          <span class="text-slate-400 font-semibold block mb-1">Liên kết chương trình & CSDL:</span>
+          <a href="index.html" target="_blank" class="text-indigo-800 font-bold underline block">• Chạy phần mềm: index.html</a>
+          <a href="database/schema.sql" target="_blank" class="text-indigo-800 font-bold underline block">• Code SQL Server: database/schema.sql</a>
+          <a href="app.js" target="_blank" class="text-indigo-800 font-bold underline block">• Code Nghiệp vụ: app.js & books-data.js</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== A. PHẦN MỞ ĐẦU ==================== -->
+    <section class="space-y-4">
+      <h2 class="text-xl sm:text-2xl font-black text-indigo-950 border-b-2 border-indigo-950 pb-2">A. PHẦN MỞ ĐẦU</h2>
+
+      <div class="space-y-1.5">
+        <h3 class="text-base font-extrabold text-slate-900">1. Lý do chọn đề tài</h3>
+        <p class="text-sm text-slate-700 leading-relaxed">
+          Trong bối cảnh chuyển đổi số giáo dục đại học, thư viện đóng vai trò trung tâm lưu trữ và phổ biến tri thức. Việc quản lý thư viện theo phương thức sổ sách thủ công thường xuyên gặp sai sót khi kiểm tra các quy định nghiệp vụ như: độ tuổi cấp thẻ độc giả (18–55 tuổi), hiệu lực thẻ (6 tháng), giới hạn năm xuất bản sách mới (trong vòng 8 năm), thẩm quyền từng bộ phận (Thủ Thư, Thủ Kho) cũng như kiểm soát số sách mượn tối đa (5 quyển trong 4 ngày) và tình trạng nợ sách quá hạn. Xuất phát từ thực tế đó, nhóm chúng em (<strong>Nguyễn Thanh Hiền</strong> và <strong>Nguyễn Trương Hà Mi</strong>) lựa chọn <strong>Đề tài 1.1: Thiết kế Phần mềm Quản lý Thư viện</strong> nhằm áp dụng bài bản kiến thức học phần Công Nghệ Phần Mềm vào việc xây dựng một hệ thống phần mềm hoàn chỉnh, có cơ sở dữ liệu đầy đủ và giao diện trực quan.
+        </p>
+      </div>
+
+      <div class="space-y-1.5">
+        <h3 class="text-base font-extrabold text-slate-900">2. Phạm vi nghiên cứu</h3>
+        <ul class="list-disc pl-6 text-sm text-slate-700 space-y-1">
+          <li><strong>Tiếp nhận nhân viên (BM1 – QĐ1):</strong> Quản lý đủ 7 trường thông tin (Họ và tên, Địa chỉ, Ngày sinh, Điện thoại, Bằng cấp, Bộ phận, Chức vụ); ràng buộc đúng 6 loại bằng cấp, 4 bộ phận, 5 chức vụ.</li>
+          <li><strong>Lập thẻ độc giả (BM2 – QĐ2):</strong> Quản lý 2 loại độc giả (Loại X, Loại Y), độ tuổi từ 18 đến 55, kiểm tra cấu trúc Email <code>@gmail.com</code>, thẻ có giá trị 6 tháng (hỗ trợ 3 gói thời hạn: 1 tháng 15.000đ, 6 tháng chuẩn QĐ2 50.000đ, 1 năm VIP 100.000đ), người lập thẻ thuộc bộ phận Thủ Thư.</li>
+          <li><strong>Tiếp nhận sách mới (BM3 – QĐ3):</strong> Phân loại và biên mục chính xác <strong>43 đầu sách thực tế có ảnh bìa</strong> vào 3 thể loại (Nhóm A: 14 cuốn, Nhóm B: 14 cuốn, Nhóm C: 15 cuốn), chỉ nhận sách xuất bản trong vòng 8 năm do nhân viên bộ phận Thủ Kho tiếp nhận.</li>
+          <li><strong>Cho mượn sách & Nhận trả sách (BM4 – QĐ4):</strong> Lập phiếu mượn sách gồm bảng 5 cột chuẩn (STT, Mã Sách, Tên Sách, Thể Loại, Tác Giả) và Ngày đăng ký trả; chỉ cho mượn khi thẻ còn hạn, không có sách quá hạn, sách không có người đang mượn, tối đa 5 quyển trong 4 ngày.</li>
+        </ul>
+      </div>
+
+      <div class="space-y-1.5">
+        <h3 class="text-base font-extrabold text-slate-900">3. Phương pháp nghiên cứu</h3>
+        <p class="text-sm text-slate-700 leading-relaxed">
+          Kết hợp phương pháp khảo sát đặc tả yêu cầu đề tài 1.1, phương pháp Phân tích thiết kế hệ thống hướng cấu trúc (PTTKHT - DFD, ERD), phương pháp Phân tích thiết kế hướng đối tượng (PTTKĐT - UML Use Case, Class, Sequence Diagram) và phương pháp lập trình thực nghiệm (SQL Server + HTML5/TailwindCSS/JavaScript ES6 & Node.js).
+        </p>
+      </div>
+    </section>
+
+    <!-- ==================== B. NỘI DUNG - I. CƠ SỞ LÝ THUYẾT ==================== -->
+    <section class="space-y-6">
+      <h2 class="text-xl sm:text-2xl font-black text-indigo-950 border-b-2 border-indigo-950 pb-2">B. NỘI DUNG</h2>
+      <h3 class="text-lg font-extrabold text-indigo-900">I. CƠ SỞ LÝ THUYẾT</h3>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+        <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-1.5">
+          <div class="font-extrabold text-slate-900">1. Phân tích thiết kế hệ thống (PTTKHT)</div>
+          <p class="text-slate-600 text-xs leading-relaxed">
+            Phân rã chức năng hệ thống theo 4 quy trình nghiệp vụ cốt lõi (BM1, BM2, BM3, BM4). Thiết kế biểu đồ luồng dữ liệu DFD kiểm soát chặt chẽ đầu vào và chuẩn hóa lược đồ cơ sở dữ liệu quan hệ đạt chuẩn 3NF gồm 6 bảng: <code>ThamSo</code>, <code>NhanVien</code>, <code>DocGia</code>, <code>Sach</code>, <code>PhieuMuon</code>, <code>ChiTietPhieuMuon</code>.
+          </p>
+        </div>
+        <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-1.5">
+          <div class="font-extrabold text-slate-900">2. Phân tích thiết kế hướng đối tượng (PTTKĐT)</div>
+          <p class="text-slate-600 text-xs leading-relaxed">
+            Mô hình hóa hệ thống theo kiến trúc 3 tầng (Giao diện View – Điều khiển Controller – Thực thể Entity). Đóng gói các quy tắc kiểm tra <code>QĐ1</code>, <code>QĐ2</code>, <code>QĐ3</code>, <code>QĐ4</code> vào các phương thức kiểm tra hợp lệ và Trigger SQL Server.
+          </p>
+        </div>
+      </div>
+
+      <!-- CÁC MÔ HÌNH HỆ THỐNG -->
+      <div class="space-y-4">
+        <h4 class="text-sm font-extrabold text-slate-900 uppercase">3. Các mô hình hệ thống (Use Case, DFD, ERD, Class Diagram, Sequence Diagram)</h4>
+
+        <div class="p-4 rounded-2xl border border-slate-200 bg-white break-inside-avoid">
+          <div class="text-xs font-bold text-indigo-950 mb-2">Mô hình 1: Biểu đồ Use Case tổng quát của Hệ thống Quản lý Thư viện</div>
+          <div class="mermaid">
+flowchart LR
+    DG["Độc Giả"] --> UC1(["Tra cứu 43 đầu sách OPAC (Nhóm A, B, C)"])
+    DG --> UC2(["Đăng ký mở thẻ & Đăng nhập Độc giả"])
+    DG --> UC3(["Đăng ký mượn sách & Chọn ngày trả"])
+    TT["Thủ Thư"] --> UC4(["BM2: Cấp thẻ độc giả (QĐ2)"])
+    TT --> UC5(["BM4: Lập phiếu cho mượn & Nhận trả (QĐ4)"])
+    TK["Thủ Kho"] --> UC6(["BM3: Tiếp nhận sách mới (QĐ3)"])
+    BGD["Ban Giám Đốc"] --> UC7(["BM1: Tiếp nhận nhân viên (QĐ1) & Thống kê"])
+          </div>
+        </div>
+
+        <div class="p-4 rounded-2xl border border-slate-200 bg-white break-inside-avoid">
+          <div class="text-xs font-bold text-indigo-950 mb-2">Mô hình 2: Lược đồ Thực thể Kết hợp (ERD) & Quan hệ Cơ sở dữ liệu 6 Bảng</div>
+          <div class="mermaid">
+erDiagram
+    NHANVIEN ||--o{ DOCGIA : "NguoiLapThe (Thu Thu - QD2)"
+    NHANVIEN ||--o{ SACH : "NguoiTiepNhan (Thu Kho - QD3)"
+    NHANVIEN ||--o{ PHIEUMUON : "NguoiChoMuon"
+    DOCGIA ||--o{ PHIEUMUON : "MaDocGia (QD4)"
+    PHIEUMUON ||--|{ CHITIETPHIEUMUON : "MaPhieuMuon (Toi da 5 cuon)"
+    SACH ||--o{ CHITIETPHIEUMUON : "MaSach (Con / DangMuon)"
+          </div>
+        </div>
+
+        <div class="p-4 rounded-2xl border border-slate-200 bg-white break-inside-avoid">
+          <div class="text-xs font-bold text-indigo-950 mb-2">Mô hình 3: Biểu đồ Tuần tự (Sequence Diagram) kiểm tra Quy định 4 (QĐ4) khi lập Phiếu mượn sách (BM4)</div>
+          <div class="mermaid">
+sequenceDiagram
+    actor User as Doc Gia / Thu Thu
+    participant UI as Giao Dien BM4 (index.html)
+    participant Logic as Bo Kiem Tra QD4 (app.js)
+    participant DB as Co So Du Lieu (SQL / Storage)
+    User->>UI: Chon Doc gia, Chon Sach (<= 5 cuon), Chon Ngay dang ky tra
+    UI->>Logic: Gui yeu cau lap Phieu muon (BM4)
+    Logic->>DB: Kiem tra Han the, Sach qua han, Tinh trang sach
+    DB-->>Logic: Tra ve ket qua kiem tra 4 dieu kien QD4
+    Logic->>DB: Luu PhieuMuon & Cap nhat TinhTrang = DangMuon
+    UI-->>User: Hien thi Phieu Muon Sach (BM4) thanh cong
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== B. NỘI DUNG - II. THỰC HÀNH (HÌNH ẢNH <-- CODE) ==================== -->
+    <section class="space-y-8">
+      <h3 class="text-lg font-extrabold text-indigo-900">II. THỰC HÀNH: MÔ TẢ CHỨC NĂNG, HƯỚNG DẪN SỬ DỤNG & HÌNH ẢNH TƯƠNG QUAN VỚI CODE</h3>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs sm:text-sm">
+        <div class="p-4 rounded-xl bg-emerald-50 border border-emerald-200 space-y-1.5">
+          <div class="font-extrabold text-emerald-950">1. Mô tả rõ những gì phần mềm đã làm được</div>
+          <ul class="list-disc pl-5 text-emerald-900 text-xs space-y-1">
+            <li>Hoàn thiện <strong>Cổng Độc giả OPAC bên ngoài</strong>: Tra cứu 43 đầu sách có ảnh bìa thực tế thuộc 3 nhóm A, B, C; đăng ký thẻ thành viên (15k/tháng, 50k/6 tháng chuẩn QĐ2, 100k/năm); đăng nhập mượn sách và chọn ngày trả.</li>
+            <li>Hoàn thiện <strong>Cổng Cán bộ Quản trị Nội bộ (Admin)</strong>: Thực hiện đầy đủ BM1 (QĐ1), BM2 (QĐ2), BM3 (QĐ3), BM4 (QĐ4), nhận trả sách, báo cáo BM5, BM6 và tham số QĐ5.</li>
+          </ul>
+        </div>
+        <div class="p-4 rounded-xl bg-indigo-50 border border-indigo-200 space-y-1.5">
+          <div class="font-extrabold text-indigo-950">2. Hướng dẫn sử dụng & Link phần mềm</div>
+          <ul class="list-disc pl-5 text-indigo-900 text-xs space-y-1">
+            <li><strong>Link mở phần mềm:</strong> <a href="index.html" target="_blank" class="font-bold underline">Mở file index.html</a> (hoặc chạy <code>CHAY_PHAN_MEM_DESKTOP.bat</code> / <code>npm start</code>).</li>
+            <li><strong>Tài khoản Độc giả mẫu:</strong> Mã thẻ <code>DG001</code> (hoặc <code>nguyenvanan@gmail.com</code>) / Mật khẩu: <code>123456</code>.</li>
+            <li><strong>Tài khoản Quản trị Admin:</strong> Tài khoản <code>admin</code> / Mật khẩu: <code>admin123</code> (hoặc Thủ thư <code>NV002</code> / <code>123456</code>).</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="space-y-8">
+        <h4 class="text-base font-black text-slate-900 uppercase border-l-4 border-indigo-950 pl-3">
+          3. Chi Tiết Từng Hình Ảnh Trên Phần Mềm & Đoạn Code Tạo Ra Hình Ảnh Đó (Hình Ảnh &lt;-- Code)
+        </h4>
+
+        <!-- ==================== HÌNH ẢNH 1: TRANG CHỦ & THỐNG KÊ ==================== -->
+        <div class="p-6 rounded-2xl border-2 border-slate-200 bg-slate-50/50 space-y-4 break-inside-avoid">
+          <div class="flex items-center justify-between">
+            <span class="px-3 py-1 rounded-md bg-indigo-950 text-amber-300 text-xs font-extrabold">HÌNH ẢNH 1 &lt;-- CODE 1</span>
+            <span class="text-xs font-bold text-slate-500">File nguồn: index.html & app.js</span>
+          </div>
+          <h5 class="text-base font-extrabold text-slate-900">Hình ảnh 1: Giao diện Trang Chủ Thư Viện (Banner & Thống kê 3 Chuyên mục Sách A, B, C)</h5>
+
+          <!-- HÌNH ẢNH MÔ PHỎNG TRỰC QUAN GIAO DIỆN 1 -->
+          <div class="rounded-xl overflow-hidden border border-slate-300 shadow-md bg-white">
+            <div class="bg-slate-950 text-white px-4 py-2 text-[11px] flex justify-between">
+              <span><strong>THE TH LIBRARY</strong> — Hệ Thống Thư Viện Điện Tử</span>
+              <span class="text-amber-300 font-bold">Cổng Cán Bộ Quản Trị</span>
+            </div>
+            <div class="p-6 text-white" style="background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 55%, #312e81 100%);">
+              <div class="grid grid-cols-1 md:grid-cols-12 gap-4 items-center">
+                <div class="md:col-span-7 space-y-2">
+                  <span class="px-2.5 py-0.5 rounded bg-white/10 text-amber-300 text-[10px] font-bold">Cổng Tra Cứu Trực Tuyến (OPAC)</span>
+                  <div class="text-lg font-extrabold">Hệ Thống Quản Lý Thư Viện & Kho Tài Liệu Học Thuật</div>
+                  <p class="text-xs text-slate-300">Tra cứu trực tuyến 43 đầu sách chuyên khảo và văn học được phân loại theo 3 nhóm chuyên mục chuẩn QĐ3 (Nhóm A: 14 sách, Nhóm B: 14 sách, Nhóm C: 15 sách).</p>
+                </div>
+                <div class="md:col-span-5 grid grid-cols-2 gap-2 text-xs">
+                  <div class="bg-white/10 p-3 rounded-lg border border-white/15">
+                    <div class="text-[10px] text-slate-300">Tổng tài liệu biên mục</div>
+                    <div class="text-base font-black text-white">43 đầu sách</div>
+                  </div>
+                  <div class="bg-white/10 p-3 rounded-lg border border-white/15">
+                    <div class="text-[10px] text-slate-300">Sẵn sàng phục vụ</div>
+                    <div class="text-base font-black text-emerald-300">40 quyển</div>
+                  </div>
+                  <div class="bg-white/10 p-3 rounded-lg border border-white/15">
+                    <div class="text-[10px] text-slate-300">Định mức lưu thông (QĐ4)</div>
+                    <div class="text-base font-black text-white">05 quyển / 4 ngày</div>
+                  </div>
+                  <div class="bg-white/10 p-3 rounded-lg border border-white/15">
+                    <div class="text-[10px] text-slate-300">Phân loại QĐ3</div>
+                    <div class="text-base font-black text-amber-300">Nhóm A, B, C</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="text-xs font-bold text-indigo-950">▲ Đoạn code HTML & JavaScript tạo ra Hình ảnh 1 ở trên:</div>
+          <pre><code>&lt;!-- 1. Code HTML dựng Banner Trang chủ &amp; 4 ô thống kê (index.html dòng 110-165): --&gt;
+&lt;div class="library-hero-bg text-white py-12 px-4 border-b border-indigo-900"&gt;
+  &lt;h1 class="text-3xl font-extrabold"&gt;Hệ Thống Quản Lý Thư Viện &amp; Kho Tài Liệu Học Thuật&lt;/h1&gt;
+  &lt;div class="grid grid-cols-2 gap-3.5"&gt;
+    &lt;div class="bg-white/10 p-4 rounded-xl"&gt;&lt;span id="home-stat-total"&gt;43&lt;/span&gt; đầu sách&lt;/div&gt;
+    &lt;div class="bg-white/10 p-4 rounded-xl"&gt;&lt;span id="home-stat-avail"&gt;40&lt;/span&gt; quyển&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+// 2. Code JavaScript tính toán tự động số lượng sách theo Nhóm A, B, C để đổ lên giao diện (app.js dòng 400-420):
+function renderHomeHighlights() {
+  const totalBooks = db.sach.length;
+  const availBooks = db.sach.filter(s =&gt; s.tinhTrang === 'Con').length;
+  const countA = db.sach.filter(s =&gt; s.theLoai === 'A').length; // 14 cuốn Nhóm A
+  const countB = db.sach.filter(s =&gt; s.theLoai === 'B').length; // 14 cuốn Nhóm B
+  const countC = db.sach.filter(s =&gt; s.theLoai === 'C').length; // 15 cuốn Nhóm C
+  document.getElementById('home-stat-total').textContent = totalBooks;
+  document.getElementById('home-stat-avail').textContent = availBooks;
+}</code></pre>
+        </div>
+
+        <!-- ==================== HÌNH ẢNH 2: KỆ SÁCH 43 CUỐN NHÓM A, B, C ==================== -->
+        <div class="p-6 rounded-2xl border-2 border-slate-200 bg-slate-50/50 space-y-4 break-inside-avoid">
+          <div class="flex items-center justify-between">
+            <span class="px-3 py-1 rounded-md bg-indigo-950 text-amber-300 text-xs font-extrabold">HÌNH ẢNH 2 &lt;-- CODE 2</span>
+            <span class="text-xs font-bold text-slate-500">File nguồn: database/schema.sql, books-data.js & app.js</span>
+          </div>
+          <h5 class="text-base font-extrabold text-slate-900">Hình ảnh 2: Hình ảnh Bìa sách thực tế & Kệ sách 3 Nhóm A (Giáo dục), Nhóm B (Khoa học), Nhóm C (Kinh tế & Văn học)</h5>
+
+          <!-- HIỂN THỊ TRỰC TIẾP 6 ẢNH BÌA SÁCH THỰC TẾ ĐẠI DIỆN 3 NHÓM A, B, C -->
+          <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 bg-white p-4 rounded-xl border border-slate-300 shadow-xs text-xs">
+            <div class="border border-slate-200 rounded-xl p-2 flex flex-col justify-between">
+              <div class="relative">
+                <img src="images/nhom A/1794538676885_112601018615683622_3100374492545443504_b491343d78e50d1b905aada8e28e5f39.jpg" class="w-full h-36 object-cover rounded-lg" />
+                <span class="absolute top-1.5 left-1.5 px-2 py-0.5 rounded bg-sky-700 text-white text-[10px] font-bold">Nhóm A</span>
+              </div>
+              <div class="mt-2">
+                <div class="font-bold text-slate-900 text-[11px] leading-tight">Giáo Trình Giáo Dục Học</div>
+                <div class="text-[10px] text-slate-500">MS001 • 85.000 ₫</div>
+              </div>
+            </div>
+
+            <div class="border border-slate-200 rounded-xl p-2 flex flex-col justify-between">
+              <div class="relative">
+                <img src="images/nhom A/1794538676964_112601018615683622_3100374492545443504_190aed939bfccaa5124b969eb6200fd7.jpg" class="w-full h-36 object-cover rounded-lg" />
+                <span class="absolute top-1.5 left-1.5 px-2 py-0.5 rounded bg-sky-700 text-white text-[10px] font-bold">Nhóm A</span>
+              </div>
+              <div class="mt-2">
+                <div class="font-bold text-slate-900 text-[11px] leading-tight">Tâm Lý Học Toàn Thư</div>
+                <div class="text-[10px] text-slate-500">MS005 • 145.000 ₫</div>
+              </div>
+            </div>
+
+            <div class="border border-slate-200 rounded-xl p-2 flex flex-col justify-between">
+              <div class="relative">
+                <img src="images/nhom B/1794538814199_112601018615683622_3100374492545443504_370c8776a6ce27eb6f2c3d4476413e08.jpg" class="w-full h-36 object-cover rounded-lg" />
+                <span class="absolute top-1.5 left-1.5 px-2 py-0.5 rounded bg-indigo-700 text-white text-[10px] font-bold">Nhóm B</span>
+              </div>
+              <div class="mt-2">
+                <div class="font-bold text-slate-900 text-[11px] leading-tight">Giai Điệu Bí Ẩn (Vũ Trụ)</div>
+                <div class="text-[10px] text-slate-500">MS015 • 175.000 ₫</div>
+              </div>
+            </div>
+
+            <div class="border border-slate-200 rounded-xl p-2 flex flex-col justify-between">
+              <div class="relative">
+                <img src="images/nhom B/1794538814317_112601018615683622_3100374492545443504_d39bc6c551cf5e16cf35c665eab5ac6c.jpg" class="w-full h-36 object-cover rounded-lg" />
+                <span class="absolute top-1.5 left-1.5 px-2 py-0.5 rounded bg-indigo-700 text-white text-[10px] font-bold">Nhóm B</span>
+              </div>
+              <div class="mt-2">
+                <div class="font-bold text-slate-900 text-[11px] leading-tight">Lược Sử Thời Gian</div>
+                <div class="text-[10px] text-slate-500">MS025 • 145.000 ₫</div>
+              </div>
+            </div>
+
+            <div class="border border-slate-200 rounded-xl p-2 flex flex-col justify-between">
+              <div class="relative">
+                <img src="images/nhom C/1794538866201_112601018615683622_3100374492545443504_cc6214880c9a1704dbb82a7046d1be02.jpg" class="w-full h-36 object-cover rounded-lg" />
+                <span class="absolute top-1.5 left-1.5 px-2 py-0.5 rounded bg-amber-700 text-white text-[10px] font-bold">Nhóm C</span>
+              </div>
+              <div class="mt-2">
+                <div class="font-bold text-slate-900 text-[11px] leading-tight">Kinh Tế Học Thời Khó Nhọc</div>
+                <div class="text-[10px] text-slate-500">MS029 • 190.000 ₫</div>
+              </div>
+            </div>
+
+            <div class="border border-slate-200 rounded-xl p-2 flex flex-col justify-between">
+              <div class="relative">
+                <img src="images/nhom C/1794538866343_112601018615683622_3100374492545443504_a7a2c5bb16b05d6e292fb7beeb3114ea.jpg" class="w-full h-36 object-cover rounded-lg" />
+                <span class="absolute top-1.5 left-1.5 px-2 py-0.5 rounded bg-amber-700 text-white text-[10px] font-bold">Nhóm C</span>
+              </div>
+              <div class="mt-2">
+                <div class="font-bold text-slate-900 text-[11px] leading-tight">Chúng Ta Sống Để Bước Tiếp</div>
+                <div class="text-[10px] text-slate-500">MS043 • 110.000 ₫</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="text-xs font-bold text-indigo-950">▲ Đoạn code SQL & JavaScript tạo ra Hình ảnh 2 (Kệ sách 43 cuốn kèm ảnh bìa):</div>
+          <pre><code>-- 1. Code SQL tạo bảng Sach và INSERT đường dẫn ảnh bìa (database/schema.sql dòng 51-255):
+CREATE TABLE Sach (
+    MaSach VARCHAR(20) PRIMARY KEY,
+    TenSach NVARCHAR(250) NOT NULL,
+    TheLoai CHAR(1) NOT NULL CHECK (TheLoai IN ('A', 'B', 'C')),
+    TacGia NVARCHAR(150) NOT NULL,
+    NamXuatBan INT NOT NULL,
+    NhaXuatBan NVARCHAR(150) NOT NULL,
+    NgayNhap DATE NOT NULL,
+    TriGia DECIMAL(18,0) NOT NULL CHECK (TriGia &gt;= 0),
+    NguoiTiepNhan VARCHAR(20) NOT NULL REFERENCES NhanVien(MaNV),
+    TinhTrang VARCHAR(20) NOT NULL DEFAULT 'Con' CHECK (TinhTrang IN ('Con', 'DangMuon')),
+    HinhAnh NVARCHAR(500)
+);
+
+// 2. Code JavaScript tạo từng ô thẻ sách có ảnh bìa, nhãn Nhóm A/B/C và nút Đăng ký mượn (app.js dòng 438-506):
+function createBookCardHTML(book) {
+  const isAvail = book.tinhTrang === 'Con';
+  const badgeClass = getCategoryBadgeClass(book.theLoai);
+  return `
+    &lt;div class="bg-white rounded-2xl border overflow-hidden flex flex-col group"&gt;
+      &lt;div class="relative aspect-[3/4]" onclick="openBookDetailModal('${book.maSach}')"&gt;
+        &lt;img src="${book.hinhAnh}" alt="${book.tenSach}" class="w-full h-full object-cover" /&gt;
+        &lt;span class="absolute top-2.5 left-2.5 px-2.5 py-0.5 rounded-md text-[11px] font-bold ${badgeClass}"&gt;Nhóm ${book.theLoai}&lt;/span&gt;
+      &lt;/div&gt;
+      &lt;div class="p-4"&gt;
+        &lt;h3 class="font-bold text-slate-900 text-sm"&gt;${book.tenSach}&lt;/h3&gt;
+        &lt;p class="text-xs text-slate-600"&gt;${book.tacGia}&lt;/p&gt;
+        &lt;button onclick="toggleBookInCart('${book.maSach}')"&gt;Đăng ký mượn&lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;`;
+}</code></pre>
+        </div>
+
+        <!-- ==================== HÌNH ẢNH 3: BIỂU MẪU BM1 (HỒ SƠ NHÂN VIÊN - QĐ1) ==================== -->
+        <div class="p-6 rounded-2xl border-2 border-slate-200 bg-slate-50/50 space-y-4 break-inside-avoid">
+          <div class="flex items-center justify-between">
+            <span class="px-3 py-1 rounded-md bg-indigo-950 text-amber-300 text-xs font-extrabold">HÌNH ẢNH 3 &lt;-- CODE 3</span>
+            <span class="text-xs font-bold text-slate-500">Biểu mẫu BM1 & Quy định QĐ1 (Trang 3 PDF)</span>
+          </div>
+          <h5 class="text-base font-extrabold text-slate-900">Hình ảnh 3: Giao diện Biểu mẫu BM1 (Hồ Sơ Nhân Viên) & Ràng buộc QĐ1 (6 Bằng cấp, 4 Bộ phận, 5 Chức vụ)</h5>
+
+          <!-- HÌNH ẢNH MÔ PHỎNG GIAO DIỆN BM1 -->
+          <div class="bg-white p-5 rounded-xl border border-slate-300 shadow-xs space-y-3 text-xs">
+            <div class="font-extrabold text-slate-900 border-b pb-2">BM1: Tiếp Nhận Hồ Sơ Nhân Viên (QĐ1: 6 Bằng cấp, 4 Bộ phận, 5 Chức vụ)</div>
+            <div class="grid grid-cols-3 gap-2.5">
+              <div class="p-2 border rounded-lg bg-slate-50"><span class="text-slate-400 block text-[10px]">Họ và tên nhân viên *</span><strong>Nguyễn Minh Hoàng</strong></div>
+              <div class="p-2 border rounded-lg bg-slate-50"><span class="text-slate-400 block text-[10px]">Địa chỉ (BM1) *</span><strong>12 Lê Duẩn, Quận 1, TP.HCM</strong></div>
+              <div class="p-2 border rounded-lg bg-slate-50"><span class="text-slate-400 block text-[10px]">Ngày sinh *</span><strong>1988-05-14</strong></div>
+              <div class="p-2 border rounded-lg bg-slate-50"><span class="text-slate-400 block text-[10px]">Điện thoại (BM1) *</span><strong>0901234567</strong></div>
+              <div class="p-2 border rounded-lg bg-indigo-50 border-indigo-200"><span class="text-indigo-500 block text-[10px]">Bằng cấp (6 loại QĐ1)</span><strong class="text-indigo-950">Thạc sĩ</strong></div>
+              <div class="p-2 border rounded-lg bg-indigo-50 border-indigo-200"><span class="text-indigo-500 block text-[10px]">Bộ phận (4 bộ phận QĐ1)</span><strong class="text-indigo-950">Ban Giám Đốc</strong></div>
+            </div>
+          </div>
+
+          <div class="text-xs font-bold text-indigo-950">▲ Đoạn code SQL & JavaScript tạo ra Hình ảnh 3 (BM1 – QĐ1):</div>
+          <pre><code>-- 1. Code SQL tạo bảng NhanVien với CHECK CONSTRAINT kiểm tra đúng QĐ1 (database/schema.sql dòng 20-32):
+CREATE TABLE NhanVien (
+    MaNV VARCHAR(20) PRIMARY KEY,
+    HoTen NVARCHAR(100) NOT NULL,
+    DiaChi NVARCHAR(255) NOT NULL,
+    NgaySinh DATE NOT NULL,
+    DienThoai VARCHAR(20) NOT NULL,
+    BangCap NVARCHAR(50) NOT NULL CHECK (BangCap IN (N'Tú tài', N'Trung cấp', N'Cao đẳng', N'Đại học', N'Thạc sĩ', N'Tiến sĩ')),
+    BoPhan NVARCHAR(50) NOT NULL CHECK (BoPhan IN (N'Thủ Thư', N'Thủ Kho', N'Thủ Quỹ', N'Ban Giám Đốc')),
+    ChucVu NVARCHAR(50) NOT NULL CHECK (ChucVu IN (N'Giám Đốc', N'Phó Giám Đốc', N'Trưởng Phòng', N'Phó Phòng', N'Nhân Viên'))
+);
+
+// 2. Code JavaScript lưu hồ sơ nhân viên BM1 và kiểm tra hợp lệ (app.js dòng 1358-1395):
+function handleBM1Submit(e) {
+  e.preventDefault();
+  const hoTen = document.getElementById('bm1-name').value.trim();
+  const diaChi = document.getElementById('bm1-address').value.trim();
+  const ngaySinh = document.getElementById('bm1-dob').value;
+  const dienThoai = document.getElementById('bm1-phone').value.trim();
+  const bangCap = document.getElementById('bm1-degree').value;
+  const boPhan = document.getElementById('bm1-dept').value;
+  const chucVu = document.getElementById('bm1-role').value;
+  db.nhanVien.push({ maNV: newCode, hoTen, diaChi, ngaySinh, dienThoai, bangCap, boPhan, chucVu });
+  saveDatabase();
+}</code></pre>
+        </div>
+
+        <!-- ==================== HÌNH ẢNH 4: BIỂU MẪU BM2 & THẺ THƯ VIỆN ĐIỆN TỬ ==================== -->
+        <div class="p-6 rounded-2xl border-2 border-slate-200 bg-slate-50/50 space-y-4 break-inside-avoid">
+          <div class="flex items-center justify-between">
+            <span class="px-3 py-1 rounded-md bg-indigo-950 text-amber-300 text-xs font-extrabold">HÌNH ẢNH 4 &lt;-- CODE 4</span>
+            <span class="text-xs font-bold text-slate-500">Biểu mẫu BM2 & Quy định QĐ2 (Trang 3-4 PDF)</span>
+          </div>
+          <h5 class="text-base font-extrabold text-slate-900">Hình ảnh 4: Giao diện Đăng ký Thẻ Thành Viên (3 Gói biểu phí) & Chiếc Thẻ Thư Viện Điện Tử (BM2 – QĐ2)</h5>
+
+          <!-- HÌNH ẢNH MÔ PHỎNG 3 GÓI THẺ + THẺ THƯ VIỆN ĐIỆN TỬ -->
+          <div class="grid grid-cols-1 md:grid-cols-12 gap-4 items-center bg-white p-5 rounded-xl border border-slate-300 shadow-xs">
+            <div class="md:col-span-6 space-y-2 text-xs">
+              <div class="p-2.5 rounded-lg border border-slate-200 flex justify-between">
+                <span><strong>Gói Trải Nghiệm (1 Tháng)</strong></span>
+                <strong class="text-indigo-900">15.000 ₫ / tháng</strong>
+              </div>
+              <div class="p-2.5 rounded-lg border-2 border-indigo-950 bg-indigo-50/50 flex justify-between">
+                <span><strong>Gói Tiêu Chuẩn QĐ2 (6 Tháng)</strong></span>
+                <strong class="text-indigo-950">50.000 ₫ / 6 tháng</strong>
+              </div>
+              <div class="p-2.5 rounded-lg border border-slate-200 flex justify-between">
+                <span><strong>Gói Thành Viên VIP (1 Năm)</strong></span>
+                <strong class="text-amber-700">100.000 ₫ / 12 tháng</strong>
+              </div>
+            </div>
+            <!-- Hình chiếc thẻ thư viện điện tử -->
+            <div class="md:col-span-6 rounded-xl p-4 text-white bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 text-xs space-y-2 shadow-lg">
+              <div class="flex justify-between items-center border-b border-white/15 pb-2">
+                <span class="text-[10px] font-bold text-amber-300 uppercase">THẺ THƯ VIỆN ĐIỆN TỬ (BM2)</span>
+                <span class="px-2 py-0.5 rounded bg-emerald-500 text-slate-950 text-[10px] font-bold">Thẻ hợp lệ</span>
+              </div>
+              <div class="grid grid-cols-2 gap-2">
+                <div><span class="text-slate-400 text-[10px] block">Mã thẻ:</span><strong class="text-amber-300 font-mono">DG001</strong></div>
+                <div><span class="text-slate-400 text-[10px] block">Phân loại (QĐ2):</span><strong>Loại X (Sinh viên)</strong></div>
+                <div class="col-span-2"><span class="text-slate-400 text-[10px] block">Chủ thẻ &amp; Email @gmail.com:</span><strong>NGUYỄN VĂN AN (nguyenvanan@gmail.com)</strong></div>
+                <div><span class="text-slate-400 text-[10px] block">Hiệu lực:</span><strong>2025-12-01 → 2026-12-01</strong></div>
+                <div><span class="text-slate-400 text-[10px] block">Thủ thư lập thẻ:</span><strong>Trần Thị Thu Hà</strong></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="text-xs font-bold text-indigo-950">▲ Đoạn code SQL Trigger & JavaScript tạo ra Hình ảnh 4 (Kiểm tra Tuổi 18–55, @gmail.com, Hạn thẻ & Vẽ thẻ BM2):</div>
+          <pre><code>// 1. Code JavaScript kiểm tra cấu trúc @gmail.com và độ tuổi 18-55 theo QĐ2 (app.js dòng 823-875):
+const GMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
+if (!GMAIL_REGEX.test(email)) {
+  showToast('Email không đúng cấu trúc @gmail.com!', 'error');
+  return;
+}
+const age = calculateAge(ngaySinh);
+if (age &lt; db.thamSo.TuoiToiThieu || age &gt; db.thamSo.TuoiToiDa) {
+  showToast(`Từ chối cấp thẻ (QĐ2): Độ tuổi độc giả là ${age} tuổi (Quy định từ 18 đến 55 tuổi).`, 'error');
+  return;
+}
+// Tự động tính ngày hết hạn (+6 tháng chuẩn QĐ2 hoặc theo gói đã chọn) &amp; gán nhân viên Bộ phận Thủ Thư:
+const ngayHetHan = addMonths(ngayLapThe, plan.months);
+const thuThu = db.nhanVien.find(n =&gt; n.boPhan === 'Thủ Thư');</code></pre>
+        </div>
+
+        <!-- ==================== HÌNH ẢNH 5: BIỂU MẪU BM4 (PHIẾU MƯỢN SÁCH 5 CỘT CHUẨN) ==================== -->
+        <div class="p-6 rounded-2xl border-2 border-slate-200 bg-slate-50/50 space-y-4 break-inside-avoid">
+          <div class="flex items-center justify-between">
+            <span class="px-3 py-1 rounded-md bg-indigo-950 text-amber-300 text-xs font-extrabold">HÌNH ẢNH 5 &lt;-- CODE 5</span>
+            <span class="text-xs font-bold text-slate-500">Biểu mẫu BM4 & Quy định QĐ4 (Trang 4 PDF)</span>
+          </div>
+          <h5 class="text-base font-extrabold text-slate-900">Hình ảnh 5: Giao diện Biểu mẫu BM4 (Phiếu Mượn Sách 5 cột chuẩn, Chọn Ngày đăng ký trả & Kiểm tra 4 điều kiện QĐ4)</h5>
+
+          <!-- HÌNH ẢNH MÔ PHỎNG BIỂU MẪU BM4 -->
+          <div class="bg-white p-5 rounded-xl border border-slate-300 shadow-xs space-y-3 text-xs">
+            <div class="flex flex-wrap justify-between gap-2 border-b pb-2">
+              <div><strong>BM4: PHIẾU MƯỢN SÁCH</strong> • Họ tên độc giả: <strong>Nguyễn Văn An (DG001)</strong></div>
+              <div>Ngày mượn: <strong>2026-02-20</strong> • Ngày đăng ký trả: <strong class="text-indigo-900">2026-02-24 (+4 ngày chuẩn QĐ4)</strong></div>
+            </div>
+            <table class="w-full text-left border border-slate-200">
+              <thead class="bg-slate-900 text-white">
+                <tr><th class="p-2">STT</th><th class="p-2">Mã Sách</th><th class="p-2">Tên Sách</th><th class="p-2">Thể Loại</th><th class="p-2">Tác Giả</th></tr>
+              </thead>
+              <tbody>
+                <tr class="border-b"><td class="p-2 font-bold">1</td><td class="p-2 font-mono font-bold">MS003</td><td class="p-2">Giáo Trình Giáo Dục Học - Tập Một</td><td class="p-2 font-bold">Loại A</td><td class="p-2">Phan Thị Hồng Vinh</td></tr>
+                <tr><td class="p-2 font-bold">2</td><td class="p-2 font-mono font-bold">MS023</td><td class="p-2">Thông Điệp Từ Những Vì Sao</td><td class="p-2 font-bold">Loại B</td><td class="p-2">Neil deGrasse Tyson</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="text-xs font-bold text-indigo-950">▲ Đoạn code SQL Trigger & JavaScript tạo ra Hình ảnh 5 (Bảng 5 cột BM4 & Kiểm tra 4 điều kiện QĐ4):</div>
+          <pre><code>// 1. Code JavaScript kiểm tra 4 điều kiện QĐ4 trước khi lập phiếu mượn (app.js dòng 735-775):
+if (currentReader.ngayHetHan &lt; ngayMuon) {
+  showToast(`Từ chối mượn (QĐ4): Thẻ độc giả đã hết hạn ngày ${currentReader.ngayHetHan}.`, 'error'); return;
+}
+if (st.overdueBooks.length &gt; 0) {
+  showToast(`Từ chối mượn (QĐ4): Đang có ${st.overdueBooks.length} cuốn sách quá hạn chưa trả.`, 'error'); return;
+}
+if (st.activeCount + borrowCart.length &gt; db.thamSo.SoSachMuonToiDa) {
+  showToast(`Từ chối mượn (QĐ4): Vượt quá định mức tối đa ${db.thamSo.SoSachMuonToiDa} quyển sách.`, 'error'); return;
+}
+
+// 2. Code JavaScript vẽ bảng 5 cột chuẩn BM4 (STT, Mã Sách, Tên Sách, Thể Loại, Tác Giả) (app.js dòng 1608-1630):
+function renderBM4PreviewTable() {
+  tbody.innerHTML = selectedIds.map((id, idx) =&gt; {
+    const b = getBookById(id);
+    return `&lt;tr&gt;&lt;td&gt;${idx + 1}&lt;/td&gt;&lt;td&gt;${b.maSach}&lt;/td&gt;&lt;td&gt;${b.tenSach}&lt;/td&gt;&lt;td&gt;Loại ${b.theLoai}&lt;/td&gt;&lt;td&gt;${b.tacGia}&lt;/td&gt;&lt;/tr&gt;`;
+  }).join('');
+}</code></pre>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==================== C. PHẦN KẾT LUẬN ==================== -->
+    <section class="space-y-3 break-inside-avoid">
+      <h2 class="text-xl sm:text-2xl font-black text-indigo-950 border-b-2 border-indigo-950 pb-2">C. PHẦN KẾT LUẬN</h2>
+      <h3 class="text-base font-extrabold text-slate-900">Ý nghĩa của đề tài đối với bản thân trong quá trình học tập</h3>
+      <p class="text-sm text-slate-700 leading-relaxed">
+        Quá trình nghiên cứu, phân tích thiết kế và trực tiếp lập trình hoàn thiện <strong>Đề tài 1.1: Thiết kế Phần mềm Quản lý Thư viện</strong> trong học phần <strong>Công Nghệ Phần Mềm</strong> đã mang lại cho nhóm chúng em (<strong>Nguyễn Thanh Hiền</strong> và <strong>Nguyễn Trương Hà Mi</strong>) những kiến thức và kinh nghiệm thực hành vô cùng quý báu:
+      </p>
+      <ul class="list-disc pl-6 text-sm text-slate-700 space-y-1.5">
+        <li><strong>Làm chủ quy trình phát triển phần mềm chuẩn mực:</strong> Biết cách đi từ khâu thu thập yêu cầu nghiệp vụ (<code>BM1</code> → <code>BM4</code>, <code>QĐ1</code> → <code>QĐ4</code>), xây dựng mô hình PTTKHT (DFD, ERD) và PTTKĐT (Use Case, Class, Sequence Diagram) đến thiết kế cơ sở dữ liệu SQL Server đạt chuẩn 3NF.</li>
+        <li><strong>Chuyển hóa quy định nghiệp vụ thành mã lệnh kiểm soát tự động:</strong> Biết cách kết hợp kiểm tra hợp lệ ở cả tầng Giao diện (JavaScript Validation) và tầng Cơ sở dữ liệu (SQL <code>CHECK CONSTRAINT</code> &amp; <code>TRIGGER</code>) để ngăn chặn triệt để dữ liệu sai quy định.</li>
+        <li><strong>Nâng cao tư duy thiết kế UI/UX thực tế:</strong> Xây dựng được phần mềm có giao diện trực quan, tách biệt rõ ràng giữa Cổng Độc giả OPAC bên ngoài và Cổng Cán bộ Quản trị nội bộ bên trong, tạo nền tảng vững chắc cho các đồ án chuyên ngành và công việc phát triển phần mềm sau này.</li>
+      </ul>
+    </section>
+
+  </div>
+
+  <script>
+    mermaid.initialize({ startOnLoad: true, theme: 'default' });
+  </script>
+</body>
+</html>

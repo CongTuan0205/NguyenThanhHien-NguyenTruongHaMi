@@ -1,0 +1,1064 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hệ Thống Thư Viện Số & Quản Lý Lưu Thông — The TH Library</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: #f8fafc;
+      color: #0f172a;
+    }
+    .line-clamp-2 {
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .library-hero-bg {
+      background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 55%, #312e81 100%);
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+  <!-- TOAST NOTIFICATION CONTAINER -->
+  <div id="toast-container" class="fixed top-5 right-5 z-[100] space-y-2.5"></div>
+
+  <!-- ===================================================================== -->
+  <!-- PHẦN 1: CỔNG THÔNG TIN ĐỘC GIẢ & TRA CỨU OPAC (PUBLIC LIBRARY PORTAL) -->
+  <!-- ===================================================================== -->
+  <div id="portal-public" class="flex-1 flex flex-col">
+
+    <!-- TOP INSTITUTIONAL BAR -->
+    <div class="bg-slate-950 text-slate-300 text-xs py-2 px-4 border-b border-slate-800">
+      <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-2">
+        <div class="flex items-center gap-4">
+          <span><i class="fa-solid fa-building-columns text-amber-400 mr-1.5"></i><strong>HỆ THỐNG THƯ VIỆN ĐIỆN TỬ — THE TH LIBRARY</strong></span>
+          <span class="hidden md:inline text-slate-600">|</span>
+          <span class="hidden md:inline text-slate-400"><i class="fa-regular fa-clock mr-1"></i>Giờ mở cửa phục vụ: 07:30 – 21:00 (Thứ Hai – Thứ Bảy)</span>
+        </div>
+        <div class="flex items-center gap-4">
+          <button onclick="navigatePublicPage('rules')" class="hover:text-white transition">
+            <i class="fa-solid fa-scale-balanced mr-1 text-slate-400"></i>Quy định mượn trả
+          </button>
+          <span class="text-slate-700">|</span>
+          <button onclick="navigatePortal('admin')" class="text-amber-300 hover:text-amber-200 font-bold flex items-center gap-1.5 transition">
+            <i class="fa-solid fa-user-lock"></i>
+            <span>Cổng Cán Bộ Quản Trị</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- MAIN PUBLIC HEADER -->
+    <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-2xs">
+      <div class="max-w-7xl mx-auto px-4 py-3.5 flex flex-wrap items-center justify-between gap-4">
+        <!-- Brand Identity -->
+        <div onclick="navigatePublicPage('home')" class="flex items-center gap-3 cursor-pointer">
+          <div class="w-11 h-11 rounded-xl bg-indigo-950 text-amber-300 flex items-center justify-center text-xl shadow-sm border border-indigo-900">
+            <i class="fa-solid fa-book-open-reader"></i>
+          </div>
+          <div>
+            <div class="text-base sm:text-lg font-extrabold tracking-tight text-slate-900 leading-none">THE TH <span class="text-indigo-900">LIBRARY</span></div>
+            <div class="text-[11px] font-semibold text-slate-500 mt-0.5">Cổng Tra Cứu Tài Liệu OPAC & Lưu Thông Thư Viện</div>
+          </div>
+        </div>
+
+        <!-- Navigation Menu (Chia từng phần rõ ràng chuẩn Thư viện) -->
+        <nav class="flex flex-wrap items-center gap-1 bg-slate-100/90 p-1.5 rounded-xl border border-slate-200/80">
+          <button id="public-nav-home" onclick="navigatePublicPage('home')" class="px-4 py-2 rounded-lg text-sm font-bold bg-indigo-950 text-white shadow-sm transition">
+            Trang Chủ
+          </button>
+          <button id="public-nav-catalog" onclick="navigatePublicPage('catalog')" class="px-4 py-2 rounded-lg text-sm font-semibold text-slate-700 hover:bg-slate-100 hover:text-indigo-950 transition">
+            Tra Cứu Kho Sách
+          </button>
+          <button id="public-nav-register-card" onclick="navigatePublicPage('register-card')" class="px-4 py-2 rounded-lg text-sm font-semibold text-slate-700 hover:bg-slate-100 hover:text-indigo-950 transition">
+            Cấp Thẻ Thành Viên
+          </button>
+          <button id="public-nav-rules" onclick="navigatePublicPage('rules')" class="px-4 py-2 rounded-lg text-sm font-semibold text-slate-700 hover:bg-slate-100 hover:text-indigo-950 transition">
+            Nội Quy Thư Viện
+          </button>
+          <button id="public-nav-reader-profile" onclick="navigatePublicPage('reader-profile')" class="px-4 py-2 rounded-lg text-sm font-semibold text-slate-700 hover:bg-slate-100 hover:text-indigo-950 transition">
+            Thẻ & Phiếu Mượn
+          </button>
+        </nav>
+
+        <!-- Right Actions: Phiếu đăng ký mượn + Tài khoản Độc giả -->
+        <div class="flex items-center gap-2.5">
+          <button onclick="openBorrowDrawer()" class="relative px-3.5 py-2 rounded-xl bg-amber-50 hover:bg-amber-100 text-amber-950 border border-amber-200 font-bold text-xs sm:text-sm transition flex items-center gap-2" title="Phiếu đăng ký mượn sách">
+            <i class="fa-solid fa-book-medical text-amber-700"></i>
+            <span class="hidden sm:inline">Phiếu mượn</span>
+            <span id="cart-count-badge" class="w-5 h-5 rounded-full bg-amber-700 text-white text-xs flex items-center justify-center font-extrabold">0</span>
+          </button>
+
+          <div id="public-header-auth"></div>
+        </div>
+      </div>
+    </header>
+
+    <!-- ==================== MỤC 1: TRANG CHỦ THƯ VIỆN (HOME) ==================== -->
+    <section id="public-page-home" class="flex-1">
+      <!-- HERO BANNER -->
+      <div class="library-hero-bg text-white py-12 px-4 border-b border-indigo-900">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+          <div class="lg:col-span-7 space-y-4">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-white/10 border border-white/15 text-xs font-semibold text-amber-300">
+              <i class="fa-solid fa-landmark"></i> Cổng Tra Cứu Trực Tuyến (OPAC) & Quản Lý Lưu Thông Sách
+            </div>
+            <h1 class="text-3xl sm:text-4xl font-extrabold leading-tight">
+              Hệ Thống Quản Lý Thư Viện & Kho Tài Liệu Học Thuật
+            </h1>
+            <p class="text-sm sm:text-base text-slate-300 leading-relaxed max-w-2xl">
+              Tra cứu trực tuyến <strong class="text-white">43 đầu sách chuyên khảo và văn học</strong> được phân loại theo 3 nhóm chuyên mục chuẩn (Nhóm A, Nhóm B, Nhóm C). Độc giả có thể đăng ký mở thẻ thành viên, đăng nhập tài khoản cá nhân để lập phiếu mượn và đăng ký ngày trả sách trực tuyến.
+            </p>
+            <div class="flex flex-wrap items-center gap-3 pt-2">
+              <button onclick="navigatePublicPage('catalog')" class="px-5 py-3 rounded-xl font-bold text-sm bg-amber-400 hover:bg-amber-300 text-slate-950 shadow-md transition flex items-center gap-2">
+                <i class="fa-solid fa-magnifying-glass"></i> Tra Cứu Kho Sách Ngay
+              </button>
+              <button onclick="navigatePublicPage('register-card')" class="px-5 py-3 rounded-xl font-bold text-sm bg-white/10 hover:bg-white/20 text-white border border-white/20 transition flex items-center gap-2">
+                <i class="fa-regular fa-id-card"></i> Đăng Ký Mở Thẻ Độc Giả
+              </button>
+            </div>
+          </div>
+
+          <!-- Thống kê tài nguyên thư viện -->
+          <div class="lg:col-span-5 grid grid-cols-2 gap-3.5">
+            <div class="bg-white/10 backdrop-blur-xs p-4 rounded-xl border border-white/15">
+              <div class="text-xs text-slate-300 font-medium">Tổng tài liệu biên mục</div>
+              <div class="text-2xl font-black text-white mt-1"><span id="home-stat-total">43</span> đầu sách</div>
+              <div class="text-[11px] text-amber-300 mt-1">Đạt chuẩn xuất bản ≤ 8 năm (QĐ3)</div>
+            </div>
+            <div class="bg-white/10 backdrop-blur-xs p-4 rounded-xl border border-white/15">
+              <div class="text-xs text-slate-300 font-medium">Sẵn sàng phục vụ</div>
+              <div class="text-2xl font-black text-emerald-300 mt-1"><span id="home-stat-avail">40</span> quyển</div>
+              <div class="text-[11px] text-slate-300 mt-1">Có thể đăng ký mượn ngay</div>
+            </div>
+            <div class="bg-white/10 backdrop-blur-xs p-4 rounded-xl border border-white/15">
+              <div class="text-xs text-slate-300 font-medium">Định mức lưu thông (QĐ4)</div>
+              <div class="text-2xl font-black text-white mt-1">05 quyển / lần</div>
+              <div class="text-[11px] text-slate-300 mt-1">Chuẩn mượn 04 ngày / lượt</div>
+            </div>
+            <div class="bg-white/10 backdrop-blur-xs p-4 rounded-xl border border-white/15">
+              <div class="text-xs text-slate-300 font-medium">Độc giả thành viên</div>
+              <div class="text-2xl font-black text-amber-300 mt-1"><span id="home-stat-readers">3</span> thẻ</div>
+              <div class="text-[11px] text-slate-300 mt-1">Loại X (Sinh viên) & Loại Y (CB/GV)</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PHÂN KHU 3 CHUYÊN MỤC SÁCH CHUẨN QĐ3 -->
+      <div class="max-w-7xl mx-auto px-4 py-10 space-y-10">
+        <div>
+          <div class="flex flex-wrap items-end justify-between gap-2 mb-5">
+            <div>
+              <span class="text-xs font-bold uppercase tracking-wider text-indigo-800">Phân loại Tài liệu theo Quy Định 3 (QĐ3)</span>
+              <h2 class="text-2xl font-extrabold text-slate-900 mt-0.5">Chuyên Mục Tài Liệu Thư Viện</h2>
+            </div>
+            <button onclick="navigatePublicPage('catalog')" class="text-xs sm:text-sm font-bold text-indigo-900 hover:underline">
+              Xem toàn bộ 43 đầu sách <i class="fa-solid fa-arrow-right ml-1"></i>
+            </button>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+            <div onclick="jumpToCategoryCatalog('A')" class="cursor-pointer bg-white p-6 rounded-2xl border border-slate-200 hover:border-sky-600 hover:shadow-md transition group">
+              <div class="flex items-center justify-between mb-3">
+                <span class="px-3 py-1 rounded-md bg-sky-700 text-white text-xs font-bold">Thể loại A</span>
+                <span class="text-xs font-bold text-slate-500"><span id="home-stat-a">14</span> đầu sách</span>
+              </div>
+              <h3 class="text-lg font-extrabold text-slate-900 group-hover:text-sky-800">Giáo Dục, Tâm Lý Học & Lịch Sử</h3>
+              <p class="text-xs text-slate-600 mt-2 leading-relaxed">
+                Giáo trình đại học sư phạm, tâm lý học nhận thức, lịch sử giáo dục Việt Nam và các tác phẩm giáo khoa thư kinh điển.
+              </p>
+            </div>
+
+            <div onclick="jumpToCategoryCatalog('B')" class="cursor-pointer bg-white p-6 rounded-2xl border border-slate-200 hover:border-indigo-600 hover:shadow-md transition group">
+              <div class="flex items-center justify-between mb-3">
+                <span class="px-3 py-1 rounded-md bg-indigo-700 text-white text-xs font-bold">Thể loại B</span>
+                <span class="text-xs font-bold text-slate-500"><span id="home-stat-b">14</span> đầu sách</span>
+              </div>
+              <h3 class="text-lg font-extrabold text-slate-900 group-hover:text-indigo-800">Khoa Học, Vũ Trụ & Tự Nhiên</h3>
+              <p class="text-xs text-slate-600 mt-2 leading-relaxed">
+                Vật lý thiên văn, vũ trụ học (Stephen Hawking, Trịnh Xuân Thuận), lịch sử tiến hóa nhân loại (Sapiens) và bách khoa tự nhiên.
+              </p>
+            </div>
+
+            <div onclick="jumpToCategoryCatalog('C')" class="cursor-pointer bg-white p-6 rounded-2xl border border-slate-200 hover:border-amber-600 hover:shadow-md transition group">
+              <div class="flex items-center justify-between mb-3">
+                <span class="px-3 py-1 rounded-md bg-amber-700 text-white text-xs font-bold">Thể loại C</span>
+                <span class="text-xs font-bold text-slate-500"><span id="home-stat-c">15</span> đầu sách</span>
+              </div>
+              <h3 class="text-lg font-extrabold text-slate-900 group-hover:text-amber-800">Kinh Tế, Thương Hiệu & Văn Học</h3>
+              <p class="text-xs text-slate-600 mt-2 leading-relaxed">
+                Các công trình Nobel Kinh tế, quản trị thương hiệu hiện đại cùng tuyển tập tiểu thuyết, truyện dài và tản văn chọn lọc.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- TÀI LIỆU TIÊU BIỂU -->
+        <div>
+          <div class="flex flex-wrap items-end justify-between gap-2 mb-5">
+            <div>
+              <span class="text-xs font-bold uppercase tracking-wider text-indigo-800">Giới thiệu Sách</span>
+              <h2 class="text-2xl font-extrabold text-slate-900 mt-0.5">Tài Liệu Tiêu Biểu Tại Thư Viện</h2>
+            </div>
+            <button onclick="navigatePublicPage('catalog')" class="px-4 py-2 rounded-xl bg-slate-900 text-white text-xs font-bold hover:bg-slate-800">
+              Mở trang Tra cứu OPAC đầy đủ
+            </button>
+          </div>
+          <div id="home-featured-books" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-5"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== MỤC 2: TRA CỨU KHO SÁCH OPAC (CATALOG) ==================== -->
+    <section id="public-page-catalog" class="hidden flex-1 py-8 px-4">
+      <div class="max-w-7xl mx-auto space-y-6">
+        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs space-y-4">
+          <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 pb-4">
+            <div>
+              <h2 class="text-xl font-extrabold text-slate-900">Tra Cứu Mục Lục Trực Tuyến (OPAC)</h2>
+              <p class="text-xs text-slate-500">Tìm kiếm và lọc tài liệu theo 3 nhóm chuyên mục chuẩn QĐ3</p>
+            </div>
+            <div id="opac-result-summary" class="text-xs font-bold text-indigo-900 bg-indigo-50 px-3 py-1.5 rounded-lg">
+              Tìm thấy 43 / 43 tài liệu biên mục
+            </div>
+          </div>
+
+          <!-- Category Filter Tabs -->
+          <div class="flex flex-wrap items-center gap-2">
+            <button id="opac-cat-btn-ALL" onclick="filterStoreByCategory('ALL')">
+              <span>Tất cả chuyên mục (<span id="opac-count-all">43</span>)</span>
+            </button>
+            <button id="opac-cat-btn-A" onclick="filterStoreByCategory('A')">
+              <span>Nhóm A: Giáo Dục & Tâm Lý (<span id="opac-count-a">14</span>)</span>
+            </button>
+            <button id="opac-cat-btn-B" onclick="filterStoreByCategory('B')">
+              <span>Nhóm B: Khoa Học & Vũ Trụ (<span id="opac-count-b">14</span>)</span>
+            </button>
+            <button id="opac-cat-btn-C" onclick="filterStoreByCategory('C')">
+              <span>Nhóm C: Kinh Tế & Văn Học (<span id="opac-count-c">15</span>)</span>
+            </button>
+          </div>
+
+          <!-- Search & Filter Inputs -->
+          <div class="grid grid-cols-1 md:grid-cols-12 gap-3 pt-2">
+            <div class="md:col-span-6 relative">
+              <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
+              <input type="text" oninput="handleStoreSearch(this.value)" placeholder="Nhập nhan đề sách, tác giả, nhà xuất bản hoặc ký hiệu mã sách (MS001...)..."
+                class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-300 focus:border-indigo-900 outline-none text-xs sm:text-sm" />
+            </div>
+            <div class="md:col-span-3">
+              <select onchange="filterStoreByStatus(this.value)" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs sm:text-sm font-medium text-slate-700 outline-none">
+                <option value="ALL">Trạng thái: Tất cả sách</option>
+                <option value="Con">Chỉ sách Còn sẵn trong kho</option>
+                <option value="DangMuon">Sách Đang lưu thông (Đang mượn)</option>
+              </select>
+            </div>
+            <div class="md:col-span-3">
+              <select onchange="handleStoreSort(this.value)" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs sm:text-sm font-medium text-slate-700 outline-none">
+                <option value="default">Sắp xếp: Theo Mã sách (MS001 → MS043)</option>
+                <option value="name-asc">Nhan đề sách: A → Z</option>
+                <option value="year-desc">Năm xuất bản: Mới nhất</option>
+                <option value="price-asc">Trị giá: Thấp → Cao</option>
+                <option value="price-desc">Trị giá: Cao → Thấp</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div id="opac-book-grid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-5"></div>
+      </div>
+    </section>
+
+    <!-- ==================== MỤC 3: ĐĂNG KÝ MỞ THẺ THÀNH VIÊN (BM2 - QĐ2) ==================== -->
+    <section id="public-page-register-card" class="hidden flex-1 py-10 px-4">
+      <div class="max-w-6xl mx-auto space-y-8">
+        <div class="text-center max-w-2xl mx-auto">
+          <span class="px-3 py-1 rounded-md text-xs font-bold bg-indigo-100 text-indigo-900 uppercase">Biểu Mẫu BM2 & Quy Định QĐ2</span>
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-2">Đăng Ký Cấp Thẻ Độc Giả Thư Viện</h2>
+          <p class="text-xs sm:text-sm text-slate-600 mt-1.5">
+            Chọn gói thời hạn thẻ và điền đầy đủ thông tin cá nhân bên dưới. Hệ thống áp dụng kiểm tra độ tuổi (18–55 tuổi) và xác thực cấu trúc hộp thư <code>@gmail.com</code>.
+          </p>
+        </div>
+
+        <!-- 3 GÓI BIỂU PHÍ THẺ THÀNH VIÊN -->
+        <div id="membership-plans-grid" class="grid grid-cols-1 md:grid-cols-3 gap-5"></div>
+
+        <!-- BIỂU MẪU ĐĂNG KÝ MỞ THẺ -->
+        <div class="bg-white rounded-2xl p-6 sm:p-8 border border-slate-200 shadow-xs max-w-3xl mx-auto">
+          <div id="reg-selected-plan-summary" class="p-4 rounded-xl bg-slate-50 border border-slate-200 mb-6"></div>
+
+          <form onsubmit="handleStoreMemberRegister(event)" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div class="sm:col-span-2">
+              <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Họ và tên người đăng ký *</label>
+              <input id="reg-fullname" type="text" required placeholder="Nhập đầy đủ họ và tên có dấu" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:border-indigo-900 outline-none text-sm" />
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Đối tượng độc giả (QĐ2) *</label>
+              <select id="reg-type" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:border-indigo-900 outline-none text-sm font-medium">
+                <option value="X">Loại X — Sinh viên / Học viên</option>
+                <option value="Y">Loại Y — Giảng viên / Cán bộ nghiên cứu</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Ngày tháng năm sinh (18 – 55 tuổi) *</label>
+              <input id="reg-dob" type="date" required class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:border-indigo-900 outline-none text-sm" />
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Địa chỉ Email (@gmail.com) *</label>
+              <input id="reg-email" type="email" required placeholder="ví dụ: hoten@gmail.com" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:border-indigo-900 outline-none text-sm" />
+              <p id="reg-email-error" class="hidden text-xs text-rose-700 font-semibold mt-1">Email phải đúng định dạng @gmail.com!</p>
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Mật khẩu sử dụng đăng nhập *</label>
+              <input id="reg-password" type="password" required minlength="4" placeholder="Nhập mật khẩu cá nhân" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:border-indigo-900 outline-none text-sm" />
+            </div>
+
+            <div class="sm:col-span-2">
+              <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Địa chỉ thường trú / Đơn vị công tác *</label>
+              <input id="reg-address" type="text" required placeholder="Số nhà, đường, phường/xã, quận/huyện, tỉnh/thành phố" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:border-indigo-900 outline-none text-sm" />
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Ngày cấp thẻ</label>
+              <input id="reg-issue-date" type="date" readonly class="w-full px-3.5 py-2.5 rounded-xl bg-slate-100 border border-slate-200 text-slate-600 text-sm" />
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Ngày hết hạn thẻ</label>
+              <input id="reg-expire-date" type="date" readonly class="w-full px-3.5 py-2.5 rounded-xl bg-slate-100 border border-slate-200 text-emerald-800 font-bold text-sm" />
+            </div>
+
+            <div class="sm:col-span-2 pt-2">
+              <button type="submit" class="w-full py-3.5 rounded-xl font-bold text-sm bg-indigo-950 hover:bg-indigo-900 text-white shadow-md transition">
+                Hoàn Tất Hồ Sơ & Cấp Thẻ Thư Viện
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== MỤC 4: NỘI QUY & QUY ĐỊNH THƯ VIỆN (QĐ1..QĐ5) ==================== -->
+    <section id="public-page-rules" class="hidden flex-1 py-10 px-4">
+      <div class="max-w-5xl mx-auto space-y-6">
+        <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs">
+          <h2 class="text-2xl font-extrabold text-slate-900">Nội Quy & Quy Định Nghiệp Vụ Thư Viện</h2>
+          <p class="text-xs sm:text-sm text-slate-600 mt-1">Áp dụng thống nhất trên toàn hệ thống theo Quy định môn Công Nghệ Phần Mềm.</p>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mt-6 text-xs sm:text-sm">
+            <div class="p-5 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+              <div class="font-extrabold text-indigo-950 text-base">1. Quy định Lập Thẻ Độc Giả (QĐ2 – BM2)</div>
+              <ul class="list-disc pl-5 space-y-1 text-slate-700">
+                <li>Có 2 loại độc giả: <strong>Loại X</strong> (Sinh viên/Học viên) và <strong>Loại Y</strong> (Giảng viên/Cán bộ).</li>
+                <li>Độ tuổi cấp thẻ quy định: Từ <strong id="rule-val-min-age">18</strong> đến <strong id="rule-val-max-age">55</strong> tuổi.</li>
+                <li>Thời hạn thẻ tiêu chuẩn: <strong id="rule-val-months">6</strong> tháng (Có hỗ trợ gói 1 tháng 15.000đ, 6 tháng 50.000đ và 1 năm 100.000đ).</li>
+                <li>Địa chỉ Email đăng ký bắt buộc đúng định dạng <code>@gmail.com</code>.</li>
+              </ul>
+            </div>
+
+            <div class="p-5 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+              <div class="font-extrabold text-indigo-950 text-base">2. Quy định Cho Mượn Sách (QĐ4 – BM4)</div>
+              <ul class="list-disc pl-5 space-y-1 text-slate-700">
+                <li>Chỉ cho mượn khi <strong>thẻ độc giả còn hạn sử dụng</strong>.</li>
+                <li>Độc giả <strong>không có sách mượn quá hạn</strong> chưa trả.</li>
+                <li>Chỉ cho mượn những đầu sách hiện đang <strong>Còn sẵn</strong> trong kho.</li>
+                <li>Mỗi độc giả được mượn tối đa <strong id="rule-val-max-books">5</strong> quyển sách trong tối đa <strong id="rule-val-max-days">4</strong> ngày cho 1 lần mượn.</li>
+              </ul>
+            </div>
+
+            <div class="p-5 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+              <div class="font-extrabold text-indigo-950 text-base">3. Quy định Tiếp Nhận Sách Mới (QĐ3 – BM3)</div>
+              <ul class="list-disc pl-5 space-y-1 text-slate-700">
+                <li>Tài liệu được phân thành 3 thể loại: <strong>Nhóm A</strong> (Giáo dục & Tâm lý), <strong>Nhóm B</strong> (Khoa học & Vũ trụ), <strong>Nhóm C</strong> (Kinh tế & Văn học).</li>
+                <li>Chỉ tiếp nhận các đầu sách xuất bản trong vòng <strong id="rule-val-pub-years">8</strong> năm gần nhất do <strong>Bộ phận Thủ Kho</strong> kiểm duyệt.</li>
+              </ul>
+            </div>
+
+            <div class="p-5 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+              <div class="font-extrabold text-indigo-950 text-base">4. Quy định Nhân Sự Quản Lý (QĐ1 – BM1)</div>
+              <ul class="list-disc pl-5 space-y-1 text-slate-700">
+                <li><strong>6 trình độ bằng cấp:</strong> Tú tài, Trung cấp, Cao đẳng, Đại học, Thạc sĩ, Tiến sĩ.</li>
+                <li><strong>4 bộ phận chuyên trách:</strong> Thủ Thư (cấp thẻ & lưu thông), Thủ Kho (tiếp nhận sách), Thủ Quỹ, Ban Giám Đốc.</li>
+                <li><strong>5 chức vụ:</strong> Giám Đốc, Phó Giám Đốc, Trưởng Phòng, Phó Phòng, Nhân Viên.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== MỤC 5: HỒ SƠ THẺ & PHIẾU MƯỢN CỦA ĐỘC GIẢ ==================== -->
+    <section id="public-page-reader-profile" class="hidden flex-1 py-10 px-4">
+      <div class="max-w-6xl mx-auto">
+        <div id="reader-profile-content"></div>
+      </div>
+    </section>
+
+    <!-- PUBLIC FOOTER -->
+    <footer class="bg-slate-950 text-slate-400 py-8 px-4 border-t border-slate-800 mt-12">
+      <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-xs">
+        <div>
+          <strong class="text-white text-sm">THE TH LIBRARY — HỆ THỐNG QUẢN LÝ THƯ VIỆN SỐ</strong>
+          <p class="mt-1">Đề tài 1.1 Môn Công Nghệ Phần Mềm • SV thực hiện: <strong class="text-slate-200">Nguyễn Thanh Hiền & Nguyễn Trương Hà Mi</strong></p>
+        </div>
+        <div class="flex items-center gap-4">
+          <button onclick="resetDatabaseToDefault()" class="hover:text-white transition">Khôi phục dữ liệu gốc</button>
+          <span>•</span>
+          <button onclick="navigatePortal('admin')" class="text-amber-300 font-bold hover:underline">Cổng Cán Bộ Quản Trị</button>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- PHẦN 2: MÀN HÌNH ĐĂNG NHẬP HỆ THỐNG NỘI BỘ DÀNH CHO CÁN BỘ (ADMIN LOGIN) -->
+  <!-- ===================================================================== -->
+  <div id="portal-admin-login" class="hidden min-h-screen bg-slate-950 flex flex-col justify-between p-4">
+    <div class="max-w-7xl w-full mx-auto py-4 flex items-center justify-between">
+      <div class="flex items-center gap-2.5 text-white">
+        <div class="w-9 h-9 rounded-lg bg-amber-400 text-slate-950 flex items-center justify-center font-black">
+          <i class="fa-solid fa-building-columns"></i>
+        </div>
+        <span class="font-extrabold text-sm tracking-wide">THE TH LIBRARY • INTERNAL ERP</span>
+      </div>
+      <button onclick="navigatePortal('public')" class="px-4 py-2 rounded-xl bg-white/10 hover:bg-white/15 text-white text-xs font-bold transition flex items-center gap-2">
+        <i class="fa-solid fa-arrow-left"></i> Quay về Cổng Độc Giả (OPAC)
+      </button>
+    </div>
+
+    <div class="max-w-md w-full mx-auto bg-white rounded-2xl p-7 sm:p-8 shadow-2xl border border-slate-200 space-y-6">
+      <div class="text-center space-y-1.5">
+        <div class="w-12 h-12 rounded-2xl bg-indigo-950 text-amber-300 flex items-center justify-center text-xl mx-auto mb-2">
+          <i class="fa-solid fa-user-shield"></i>
+        </div>
+        <h1 class="text-xl font-extrabold text-slate-900">Đăng Nhập Quản Trị Nội Bộ</h1>
+        <p class="text-xs text-slate-500">Dành riêng cho Cán bộ Thủ Thư, Thủ Kho, Thủ Quỹ & Ban Giám Đốc</p>
+      </div>
+
+      <div id="admin-auth-error" class="hidden p-3.5 rounded-xl bg-rose-50 border border-rose-200 text-xs text-rose-800 flex items-start gap-2">
+        <i class="fa-solid fa-circle-exclamation text-rose-600 mt-0.5"></i>
+        <span id="admin-auth-error-text"></span>
+      </div>
+
+      <form onsubmit="handleAdminLoginSubmit(event)" class="space-y-4">
+        <div>
+          <label class="block text-xs font-bold text-slate-700 uppercase mb-1.5">Mã nhân viên hoặc Tài khoản cán bộ *</label>
+          <div class="relative">
+            <i class="fa-regular fa-id-badge absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400"></i>
+            <input id="admin-auth-username" type="text" required autocomplete="off" placeholder="Nhập mã cán bộ (VD: admin, NV001, NV002...)"
+              class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-300 focus:border-indigo-900 outline-none text-sm" />
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-slate-700 uppercase mb-1.5">Mật khẩu xác thực *</label>
+          <div class="relative">
+            <i class="fa-solid fa-lock absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400"></i>
+            <input id="admin-auth-password" type="password" required placeholder="Nhập mật khẩu nội bộ"
+              class="w-full pl-10 pr-10 py-2.5 rounded-xl border border-slate-300 focus:border-indigo-900 outline-none text-sm" />
+            <button type="button" onclick="togglePasswordVisibility('admin-auth-password', this)" class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700 text-sm">
+              <i class="fa-regular fa-eye"></i>
+            </button>
+          </div>
+        </div>
+
+        <button type="submit" class="w-full py-3 rounded-xl bg-indigo-950 hover:bg-indigo-900 text-white font-bold text-sm shadow-md transition">
+          Đăng Nhập Hệ Thống Quản Trị
+        </button>
+      </form>
+
+      <details class="text-xs text-slate-500 bg-slate-50 p-3 rounded-xl border border-slate-200">
+        <summary class="font-semibold text-slate-700 cursor-pointer">Thông tin tài khoản cán bộ phục vụ kiểm thử</summary>
+        <div class="mt-2 space-y-1 text-[11px] font-mono">
+          <div>• Ban Giám Đốc: <b>admin</b> (hoặc <b>NV001</b>) / Mật khẩu: <b>admin123</b></div>
+          <div>• Bộ phận Thủ Thư: <b>NV002</b> / Mật khẩu: <b>123456</b></div>
+          <div>• Bộ phận Thủ Kho: <b>NV003</b> / Mật khẩu: <b>123456</b></div>
+        </div>
+      </details>
+    </div>
+
+    <div class="text-center text-xs text-slate-500 py-2">
+      Hệ thống Quản trị Thư viện Nội bộ • Phân quyền theo Quy định QĐ1
+    </div>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- PHẦN 3: KHÔNG GIAN LÀM VIỆC QUẢN TRỊ THƯ VIỆN (ADMIN WORKSPACE)        -->
+  <!-- ===================================================================== -->
+  <div id="portal-admin-workspace" class="hidden min-h-screen flex bg-slate-100">
+    <!-- SIDEBAR CHIA TỪNG PHÂN HỆ RÕ RÀNG -->
+    <aside class="w-72 bg-slate-950 text-white flex flex-col shrink-0 border-r border-slate-800">
+      <div class="p-5 border-b border-slate-800">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-amber-400 text-slate-950 flex items-center justify-center font-black">
+            <i class="fa-solid fa-building-columns"></i>
+          </div>
+          <div>
+            <div class="font-extrabold text-sm tracking-wide">QUẢN TRỊ THƯ VIỆN</div>
+            <div id="admin-active-staff-info" class="text-[11px] text-amber-300 font-semibold truncate">Cán bộ quản trị</div>
+          </div>
+        </div>
+      </div>
+
+      <nav class="p-3.5 space-y-4 flex-1 overflow-y-auto">
+        <div>
+          <div class="px-3 mb-1.5 text-[10px] font-bold uppercase tracking-wider text-slate-500">1. Lưu Thông & Mượn Trả</div>
+          <div class="space-y-1">
+            <button id="admin-nav-dashboard" onclick="switchAdminTab('dashboard')" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl font-bold text-xs bg-amber-400 text-slate-950 shadow-xs transition">
+              <i class="fa-solid fa-chart-pie w-4"></i><span>Tổng Quan Hệ Thống</span>
+            </button>
+            <button id="admin-nav-bm4" onclick="switchAdminTab('bm4')" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl font-semibold text-xs text-slate-300 hover:bg-slate-800 hover:text-white transition">
+              <i class="fa-solid fa-file-signature w-4"></i><span>BM4: Lập Phiếu Cho Mượn (QĐ4)</span>
+            </button>
+            <button id="admin-nav-return" onclick="switchAdminTab('return')" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl font-semibold text-xs text-slate-300 hover:bg-slate-800 hover:text-white transition">
+              <i class="fa-solid fa-rotate-left w-4"></i><span>Nhận Trả Sách & Quá Hạn</span>
+            </button>
+          </div>
+        </div>
+
+        <div>
+          <div class="px-3 mb-1.5 text-[10px] font-bold uppercase tracking-wider text-slate-500">2. Quản Lý Danh Mục</div>
+          <div class="space-y-1">
+            <button id="admin-nav-bm3" onclick="switchAdminTab('bm3')" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl font-semibold text-xs text-slate-300 hover:bg-slate-800 hover:text-white transition">
+              <i class="fa-solid fa-book-medical w-4"></i><span>BM3: Tiếp Nhận Sách Mới (QĐ3)</span>
+            </button>
+            <button id="admin-nav-bm2" onclick="switchAdminTab('bm2')" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl font-semibold text-xs text-slate-300 hover:bg-slate-800 hover:text-white transition">
+              <i class="fa-solid fa-id-card w-4"></i><span>BM2: Quản Lý Thẻ Độc Giả (QĐ2)</span>
+            </button>
+            <button id="admin-nav-bm1" onclick="switchAdminTab('bm1')" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl font-semibold text-xs text-slate-300 hover:bg-slate-800 hover:text-white transition">
+              <i class="fa-solid fa-user-tie w-4"></i><span>BM1: Hồ Sơ Nhân Sự (QĐ1)</span>
+            </button>
+          </div>
+        </div>
+
+        <div>
+          <div class="px-3 mb-1.5 text-[10px] font-bold uppercase tracking-wider text-slate-500">3. Báo Cáo & Tham Số</div>
+          <div class="space-y-1">
+            <button id="admin-nav-bm5-bm6" onclick="switchAdminTab('bm5-bm6')" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl font-semibold text-xs text-slate-300 hover:bg-slate-800 hover:text-white transition">
+              <i class="fa-solid fa-chart-column w-4"></i><span>BM5 & BM6: Báo Cáo Thống Kê</span>
+            </button>
+            <button id="admin-nav-qd5" onclick="switchAdminTab('qd5')" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl font-semibold text-xs text-slate-300 hover:bg-slate-800 hover:text-white transition">
+              <i class="fa-solid fa-sliders w-4"></i><span>QĐ5: Tham Số Quy Định</span>
+            </button>
+          </div>
+        </div>
+      </nav>
+
+      <div class="p-4 border-t border-slate-800 space-y-2">
+        <button onclick="navigatePortal('public')" class="w-full py-2 px-3 rounded-xl font-semibold text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 transition flex items-center justify-center gap-2">
+          <i class="fa-solid fa-arrow-up-right-from-square"></i> Xem Cổng Độc Giả (OPAC)
+        </button>
+        <button onclick="handleAdminLogout()" class="w-full py-2 px-3 rounded-xl font-bold text-xs bg-rose-900/60 hover:bg-rose-800 text-rose-200 transition flex items-center justify-center gap-2">
+          <i class="fa-solid fa-right-from-bracket"></i> Đăng Xuất Cán Bộ
+        </button>
+      </div>
+    </aside>
+
+    <!-- MAIN ADMIN CONTENT -->
+    <main class="flex-1 p-6 sm:p-8 overflow-y-auto">
+      <div class="max-w-6xl mx-auto space-y-6">
+
+        <!-- 1. DASHBOARD -->
+        <div id="admin-sec-dashboard" class="space-y-6">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <div>
+              <h1 class="text-xl font-extrabold text-slate-900">Bảng Điều Khiển Trung Tâm Thư Viện</h1>
+              <p class="text-xs text-slate-500">Số liệu đồng bộ trực tiếp với Cổng tra cứu OPAC và Lưu thông tài liệu</p>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-2xs">
+              <div class="text-xs font-bold text-slate-400 uppercase">Kho Sách Biên Mục (BM3)</div>
+              <div id="adm-kpi-books" class="text-3xl font-black text-indigo-950 mt-1">43</div>
+              <div id="adm-kpi-avail" class="text-xs text-slate-500 mt-1">40 trong kho / 3 đang cho mượn</div>
+            </div>
+            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-2xs">
+              <div class="text-xs font-bold text-slate-400 uppercase">Hồ Sơ Độc Giả (BM2)</div>
+              <div id="adm-kpi-readers" class="text-3xl font-black text-emerald-700 mt-1">3</div>
+              <div class="text-xs text-slate-500 mt-1">Tổng phí cấp thẻ: <strong id="adm-kpi-revenue" class="text-emerald-800">200.000 ₫</strong></div>
+            </div>
+            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-2xs">
+              <div class="text-xs font-bold text-slate-400 uppercase">Nhân Sự Thư Viện (BM1)</div>
+              <div id="adm-kpi-staff" class="text-3xl font-black text-slate-900 mt-1">5</div>
+              <div class="text-xs text-slate-500 mt-1">4 Bộ phận chuyên trách (QĐ1)</div>
+            </div>
+            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-2xs">
+              <div class="text-xs font-bold text-slate-400 uppercase">Phiếu Mượn Lưu Thông (BM4)</div>
+              <div id="adm-kpi-loans" class="text-3xl font-black text-amber-700 mt-1">2</div>
+              <div class="text-xs text-slate-500 mt-1">Ràng buộc tự động theo QĐ4</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. BM4: LẬP PHIẾU CHO MƯỢN SÁCH (QĐ4) -->
+        <div id="admin-sec-bm4" class="hidden space-y-6">
+          <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-2xs">
+            <h2 class="text-base font-extrabold text-slate-900 mb-4">BM4: Lập Phiếu Cho Mượn Sách Tại Quầy (Kiểm tra QĐ4 & Ngày đăng ký trả)</h2>
+            <form onsubmit="handleBM4Submit(event)" class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
+              <div>
+                <label class="block text-xs font-bold text-slate-600 mb-1">Độc giả mượn sách *</label>
+                <select id="bm4-reader" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300"></select>
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-slate-600 mb-1">Cán bộ Thủ Thư lập phiếu</label>
+                <select id="bm4-staff" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300"></select>
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-slate-600 mb-1">Ngày mượn *</label>
+                <input id="bm4-borrow-date" type="date" required class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300" />
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-slate-600 mb-1">Ngày đăng ký trả (Chuẩn QĐ4: +4 ngày) *</label>
+                <input id="bm4-return-date" type="date" required class="w-full px-3.5 py-2.5 rounded-xl border border-indigo-900 bg-indigo-50/40 font-bold text-indigo-950" />
+              </div>
+              <div class="sm:col-span-2">
+                <label class="block text-xs font-bold text-slate-600 mb-1">Chọn Đầu Sách Cho Mượn (Giữ phím Ctrl để chọn tối đa 5 cuốn đang Còn sẵn) *</label>
+                <select id="bm4-books" multiple size="7" onchange="renderBM4PreviewTable()" class="w-full p-3 rounded-xl border border-slate-300 text-xs space-y-1"></select>
+              </div>
+              <div class="sm:col-span-2">
+                <div class="text-xs font-bold text-slate-700 uppercase mb-1.5">Bảng Chi Tiết Phiếu Mượn Sách (Chuẩn BM4: STT, Mã Sách, Tên Sách, Thể Loại, Tác Giả)</div>
+                <div class="border border-slate-200 rounded-xl overflow-hidden">
+                  <table class="w-full text-left text-xs">
+                    <thead class="bg-slate-900 text-white uppercase">
+                      <tr>
+                        <th class="p-2.5 w-12">STT</th>
+                        <th class="p-2.5 w-24">Mã Sách</th>
+                        <th class="p-2.5">Tên Sách</th>
+                        <th class="p-2.5 w-24">Thể Loại</th>
+                        <th class="p-2.5">Tác Giả</th>
+                      </tr>
+                    </thead>
+                    <tbody id="bm4-preview-tbody">
+                      <tr><td colspan="5" class="p-3 text-center text-slate-400">Chọn sách ở danh sách trên để hiển thị vào biểu mẫu BM4</td></tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <div class="sm:col-span-2">
+                <button type="submit" class="w-full py-3 rounded-xl bg-indigo-950 hover:bg-indigo-900 text-white font-bold text-sm">
+                  Xác Nhận Lập Phiếu Cho Mượn (BM4)
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <!-- 3. NHẬN TRẢ SÁCH & QUÁ HẠN -->
+        <div id="admin-sec-return" class="hidden space-y-6">
+          <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-2xs">
+            <div class="p-4 border-b border-slate-100">
+              <h2 class="font-extrabold text-slate-900 text-base">Sổ Theo Dõi Lưu Thông & Nhận Trả Sách</h2>
+            </div>
+            <table class="w-full text-left text-xs">
+              <thead class="bg-slate-50 border-b border-slate-200 text-slate-600 uppercase">
+                <tr>
+                  <th class="p-3">Số Phiếu</th><th class="p-3">Độc Giả</th><th class="p-3">Tài Liệu</th>
+                  <th class="p-3">Ngày Mượn</th><th class="p-3">Hạn Trả</th><th class="p-3">Trạng Thái</th><th class="p-3 text-right">Thao Tác</th>
+                </tr>
+              </thead>
+              <tbody id="admin-return-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- 4. BM3: TIẾP NHẬN SÁCH MỚI (QĐ3) -->
+        <div id="admin-sec-bm3" class="hidden space-y-6">
+          <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-2xs">
+            <h2 class="text-base font-extrabold text-slate-900 mb-4">BM3: Tiếp Nhận Sách Mới Vào Kho (QĐ3: 3 Thể loại A, B, C & Xuất bản ≤ 8 năm)</h2>
+            <form onsubmit="handleBM3Submit(event)" class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm">
+              <div class="sm:col-span-2">
+                <label class="block text-xs font-bold text-slate-600 mb-1">Nhan đề sách *</label>
+                <input id="bm3-title" required placeholder="Nhập tên sách..." class="w-full px-3.5 py-2 rounded-xl border border-slate-300" />
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-slate-600 mb-1">Phân loại (A / B / C) *</label>
+                <select id="bm3-cat" class="w-full px-3.5 py-2 rounded-xl border border-slate-300 font-bold">
+                  <option value="A">Nhóm A — Giáo Dục, Tâm Lý & Lịch Sử</option>
+                  <option value="B">Nhóm B — Khoa Học, Vũ Trụ & Tự Nhiên</option>
+                  <option value="C">Nhóm C — Kinh Tế, Thương Hiệu & Văn Học</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-slate-600 mb-1">Tác giả *</label>
+                <input id="bm3-author" required placeholder="Tên tác giả" class="w-full px-3.5 py-2 rounded-xl border border-slate-300" />
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-slate-600 mb-1">Năm xuất bản (≤ 8 năm) *</label>
+                <input id="bm3-year" type="number" required value="2024" class="w-full px-3.5 py-2 rounded-xl border border-slate-300" />
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-slate-600 mb-1">Nhà xuất bản *</label>
+                <input id="bm3-pub" required value="NXB Trẻ" class="w-full px-3.5 py-2 rounded-xl border border-slate-300" />
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-slate-600 mb-1">Trị giá (VNĐ) *</label>
+                <input id="bm3-price" type="number" required value="120000" class="w-full px-3.5 py-2 rounded-xl border border-slate-300" />
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-slate-600 mb-1">Ngày nhập kho</label>
+                <input id="bm3-date" type="date" required class="w-full px-3.5 py-2 rounded-xl border border-slate-300" />
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-slate-600 mb-1">Thủ Kho tiếp nhận (QĐ3)</label>
+                <select id="bm3-staff" class="w-full px-3.5 py-2 rounded-xl border border-slate-300"></select>
+              </div>
+              <div class="sm:col-span-2">
+                <label class="block text-xs font-bold text-slate-600 mb-1">Đường dẫn ảnh bìa</label>
+                <input id="bm3-image" placeholder="images/nhom A/..." class="w-full px-3.5 py-2 rounded-xl border border-slate-300" />
+              </div>
+              <div class="flex items-end">
+                <button type="submit" class="w-full py-2.5 px-4 rounded-xl bg-indigo-950 hover:bg-indigo-900 text-white font-bold text-sm">
+                  Biên Mục Sách Vào Kho
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-2xs">
+            <table class="w-full text-left text-xs">
+              <thead class="bg-slate-50 border-b border-slate-200 text-slate-600 uppercase">
+                <tr>
+                  <th class="p-3">Ký Hiệu</th><th class="p-3">Nhan Đề & Tác Giả</th><th class="p-3">Nhóm</th>
+                  <th class="p-3">NXB & Năm</th><th class="p-3">Trị Giá</th><th class="p-3">Trạng Thái</th><th class="p-3 text-right">Xóa</th>
+                </tr>
+              </thead>
+              <tbody id="bm3-table-body"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- 5. BM2: THẺ ĐỘC GIẢ (QĐ2) -->
+        <div id="admin-sec-bm2" class="hidden space-y-6">
+          <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-2xs">
+            <h2 class="text-base font-extrabold text-slate-900 mb-4">BM2: Cấp Thẻ Độc Giả Tại Quầy (QĐ2: Tuổi 18–55 & Email @gmail.com)</h2>
+            <form onsubmit="handleBM2Submit(event)" class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm">
+              <div>
+                <label class="block text-xs font-bold text-slate-600 mb-1">Họ và tên độc giả *</label>
+                <input id="bm2-name" required class="w-full px-3.5 py-2 rounded-xl border border-slate-300" />
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-slate-600 mb-1">Loại độc giả (X / Y)</label>
+                <select id="bm2-type" class="w-full px-3.5 py-2 rounded-xl border border-slate-300">
+                  <option value="X">Loại X (Sinh viên)</option>
+                  <option value="Y">Loại Y (Giảng viên / Cán bộ)</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-slate-600 mb-1">Ngày sinh (18 – 55 tuổi) *</label>
+                <input id="bm2-dob" type="date" required class="w-full px-3.5 py-2 rounded-xl border border-slate-300" />
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-slate-600 mb-1">Email (@gmail.com) *</label>
+                <input id="bm2-email" type="email" required placeholder="ten@gmail.com" class="w-full px-3.5 py-2 rounded-xl border border-slate-300" />
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-slate-600 mb-1">Địa chỉ *</label>
+                <input id="bm2-address" required class="w-full px-3.5 py-2 rounded-xl border border-slate-300" />
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-slate-600 mb-1">Gói thời hạn thẻ</label>
+                <select id="bm2-plan" class="w-full px-3.5 py-2 rounded-xl border border-slate-300 font-semibold">
+                  <option value="GOI_THANG">Gói 1 Tháng — 15.000 ₫</option>
+                  <option value="GOI_6THANG" selected>Gói Chuẩn QĐ2 (6 Tháng) — 50.000 ₫</option>
+                  <option value="GOI_NAM_VIP">Gói VIP 1 Năm — 100.000 ₫</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-slate-600 mb-1">Ngày lập thẻ</label>
+                <input id="bm2-issue" type="date" required class="w-full px-3.5 py-2 rounded-xl border border-slate-300" />
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-slate-600 mb-1">Thủ Thư lập thẻ (QĐ2)</label>
+                <select id="bm2-staff" class="w-full px-3.5 py-2 rounded-xl border border-slate-300"></select>
+              </div>
+              <div class="flex items-end">
+                <button type="submit" class="w-full py-2.5 px-4 rounded-xl bg-indigo-950 hover:bg-indigo-900 text-white font-bold text-sm">
+                  Cấp Thẻ Độc Giả Mới
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-2xs">
+            <table class="w-full text-left text-xs">
+              <thead class="bg-slate-50 border-b border-slate-200 text-slate-600 uppercase">
+                <tr>
+                  <th class="p-3">Mã Thẻ</th><th class="p-3">Họ Tên & Email</th><th class="p-3">Loại</th>
+                  <th class="p-3">Ngày Sinh</th><th class="p-3">Gói & Phí</th><th class="p-3">Hiệu Lực</th><th class="p-3 text-right">Xóa</th>
+                </tr>
+              </thead>
+              <tbody id="bm2-table-body"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- 6. BM1: HỒ SƠ NHÂN SỰ (QĐ1) -->
+        <div id="admin-sec-bm1" class="hidden space-y-6">
+          <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-2xs">
+            <h2 class="text-base font-extrabold text-slate-900 mb-4">BM1: Tiếp Nhận Hồ Sơ Nhân Viên (QĐ1: 6 Bằng cấp, 4 Bộ phận, 5 Chức vụ)</h2>
+            <form onsubmit="handleBM1Submit(event)" class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm">
+              <div>
+                <label class="block text-xs font-bold text-slate-600 mb-1">Họ và tên nhân viên *</label>
+                <input id="bm1-name" required placeholder="Nhập họ và tên" class="w-full px-3.5 py-2 rounded-xl border border-slate-300" />
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-slate-600 mb-1">Địa chỉ (BM1) *</label>
+                <input id="bm1-address" required placeholder="Số nhà, đường, quận/huyện..." class="w-full px-3.5 py-2 rounded-xl border border-slate-300" />
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-slate-600 mb-1">Ngày sinh *</label>
+                <input id="bm1-dob" type="date" required class="w-full px-3.5 py-2 rounded-xl border border-slate-300" />
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-slate-600 mb-1">Điện thoại (BM1) *</label>
+                <input id="bm1-phone" required placeholder="0901234567" class="w-full px-3.5 py-2 rounded-xl border border-slate-300" />
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-slate-600 mb-1">Bằng cấp (QĐ1)</label>
+                <select id="bm1-degree" class="w-full px-3.5 py-2 rounded-xl border border-slate-300">
+                  <option>Tú tài</option><option>Trung cấp</option><option>Cao đẳng</option>
+                  <option selected>Đại học</option><option>Thạc sĩ</option><option>Tiến sĩ</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-slate-600 mb-1">Bộ phận (QĐ1)</label>
+                <select id="bm1-dept" class="w-full px-3.5 py-2 rounded-xl border border-slate-300">
+                  <option>Thủ Thư</option><option>Thủ Kho</option><option>Thủ Quỹ</option><option>Ban Giám Đốc</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-slate-600 mb-1">Chức vụ (QĐ1)</label>
+                <select id="bm1-role" class="w-full px-3.5 py-2 rounded-xl border border-slate-300">
+                  <option>Nhân Viên</option><option>Phó Phòng</option><option>Trưởng Phòng</option><option>Phó Giám Đốc</option><option>Giám Đốc</option>
+                </select>
+              </div>
+              <div class="sm:col-span-2 flex items-end">
+                <button type="submit" class="w-full py-2.5 px-4 rounded-xl bg-indigo-950 hover:bg-indigo-900 text-white font-bold text-sm">
+                  Lưu Hồ Sơ Nhân Viên (BM1)
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-2xs">
+            <table class="w-full text-left text-xs">
+              <thead class="bg-slate-50 border-b border-slate-200 text-slate-600 uppercase">
+                <tr>
+                  <th class="p-3">Mã NV</th><th class="p-3">Họ Tên & Địa Chỉ</th><th class="p-3">Ngày Sinh & SĐT</th>
+                  <th class="p-3">Bằng Cấp</th><th class="p-3">Bộ Phận</th><th class="p-3">Chức Vụ</th><th class="p-3 text-right">Xóa</th>
+                </tr>
+              </thead>
+              <tbody id="bm1-table-body"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- 7. BM5 & BM6: BÁO CÁO THỐNG KÊ -->
+        <div id="admin-sec-bm5-bm6" class="hidden space-y-6">
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-2xs">
+              <h3 class="font-extrabold text-slate-900 text-base mb-3">BM5: Thống Kê Mượn Sách Theo Thể Loại</h3>
+              <table class="w-full text-left text-xs">
+                <thead class="bg-slate-50 border-b border-slate-200 uppercase">
+                  <tr><th class="p-3">STT</th><th class="p-3">Thể Loại Sách</th><th class="p-3 text-center">Số Lượt Mượn</th><th class="p-3 text-right">Tỉ Lệ</th></tr>
+                </thead>
+                <tbody id="bm5-tbody"></tbody>
+              </table>
+            </div>
+
+            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-2xs">
+              <h3 class="font-extrabold text-slate-900 text-base mb-3">BM6: Báo Cáo Sách Trả Trễ Quá Hạn</h3>
+              <table class="w-full text-left text-xs">
+                <thead class="bg-slate-50 border-b border-slate-200 uppercase">
+                  <tr><th class="p-3">STT</th><th class="p-3">Tên Sách</th><th class="p-3">Độc Giả</th><th class="p-3">Ngày Mượn</th><th class="p-3 text-right">Số Ngày Trễ</th></tr>
+                </thead>
+                <tbody id="bm6-tbody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- 8. QĐ5: THAM SỐ QUY ĐỊNH -->
+        <div id="admin-sec-qd5" class="hidden">
+          <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-2xs max-w-2xl">
+            <h2 class="text-base font-extrabold text-slate-900 mb-4">QĐ5: Thiết Lập Các Tham Số Quy Định Hệ Thống</h2>
+            <form onsubmit="handleQD5Submit(event)" class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
+              <div>
+                <label class="block text-xs font-bold text-slate-600 mb-1">Tuổi độc giả tối thiểu (QĐ2)</label>
+                <input id="qd5-min-age" type="number" required class="w-full px-3.5 py-2 rounded-xl border border-slate-300" />
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-slate-600 mb-1">Tuổi độc giả tối đa (QĐ2)</label>
+                <input id="qd5-max-age" type="number" required class="w-full px-3.5 py-2 rounded-xl border border-slate-300" />
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-slate-600 mb-1">Thời hạn thẻ chuẩn (Tháng - QĐ2)</label>
+                <input id="qd5-card-months" type="number" required class="w-full px-3.5 py-2 rounded-xl border border-slate-300" />
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-slate-600 mb-1">Khoảng cách năm xuất bản (Năm - QĐ3)</label>
+                <input id="qd5-pub-years" type="number" required class="w-full px-3.5 py-2 rounded-xl border border-slate-300" />
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-slate-600 mb-1">Số sách mượn tối đa (Quyển - QĐ4)</label>
+                <input id="qd5-max-books" type="number" required class="w-full px-3.5 py-2 rounded-xl border border-slate-300" />
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-slate-600 mb-1">Số ngày mượn tối đa 1 lần (Ngày - QĐ4)</label>
+                <input id="qd5-max-days" type="number" required class="w-full px-3.5 py-2 rounded-xl border border-slate-300" />
+              </div>
+              <div class="sm:col-span-2 pt-2">
+                <button type="submit" class="px-6 py-2.5 rounded-xl bg-indigo-950 hover:bg-indigo-900 text-white font-bold text-sm">
+                  Lưu Tham Số Quy Định (QĐ5)
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- MODALS: CHI TIẾT TÀI LIỆU, PHIẾU ĐĂNG KÝ MƯỢN & ĐĂNG NHẬP ĐỘC GIẢ     -->
+  <!-- ===================================================================== -->
+
+  <!-- MODAL 1: XEM CHI TIẾT TÀI LIỆU -->
+  <div id="modal-book-detail" class="hidden fixed inset-0 z-50 bg-slate-950/60 backdrop-blur-xs flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-3xl w-full p-6 sm:p-8 shadow-2xl border border-slate-200 max-h-[90vh] overflow-y-auto">
+      <div id="modal-book-detail-body"></div>
+    </div>
+  </div>
+
+  <!-- MODAL 2: PHIẾU ĐĂNG KÝ MƯỢN SÁCH & CHỌN NGÀY TRẢ (BM4 / QĐ4) -->
+  <div id="modal-borrow-drawer" class="hidden fixed inset-0 z-50 bg-slate-950/60 backdrop-blur-xs flex justify-end">
+    <div class="bg-white w-full max-w-lg h-full shadow-2xl flex flex-col justify-between overflow-y-auto">
+      <div class="p-6 border-b border-slate-200 flex items-center justify-between sticky top-0 bg-white z-10">
+        <div>
+          <h3 class="text-base sm:text-lg font-extrabold text-slate-900">Phiếu Đăng Ký Mượn Sách (BM4)</h3>
+          <p class="text-xs text-slate-500">Định mức QĐ4: Tối đa 5 cuốn / lần • Đăng ký ngày trả sách</p>
+        </div>
+        <button onclick="closeBorrowDrawer()" class="w-8 h-8 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-600 flex items-center justify-center">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <form onsubmit="submitStoreBorrowOrder(event)" class="p-6 space-y-4 flex-1">
+        <!-- Khu vực xác thực thẻ độc giả đang đăng nhập (Không lộ danh sách thẻ của người khác) -->
+        <div id="drawer-reader-auth-box"></div>
+        <div id="drawer-qd4-check"></div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Ngày mượn *</label>
+            <input id="drawer-borrow-date" type="date" onchange="renderBorrowDrawerContent()" class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs font-semibold" />
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-indigo-950 uppercase mb-1">Ngày đăng ký trả *</label>
+            <input id="drawer-return-date" type="date" onchange="renderBorrowDrawerContent()" class="w-full px-3 py-2 rounded-xl border-2 border-indigo-900 bg-indigo-50/40 text-xs font-extrabold text-indigo-950" />
+          </div>
+        </div>
+
+        <div class="flex items-center gap-1.5 flex-wrap">
+          <span class="text-[11px] text-slate-500 font-semibold">Thời hạn mượn (QĐ4 ≤ 4 ngày):</span>
+          <button type="button" onclick="setQuickReturnDays(1)" class="px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 text-xs font-semibold">1 ngày</button>
+          <button type="button" onclick="setQuickReturnDays(2)" class="px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 text-xs font-semibold">2 ngày</button>
+          <button type="button" onclick="setQuickReturnDays(3)" class="px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 text-xs font-semibold">3 ngày</button>
+          <button type="button" onclick="setQuickReturnDays(4)" class="px-2.5 py-1 rounded-lg bg-indigo-950 text-white text-xs font-bold">4 ngày (Tối đa QĐ4)</button>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-slate-700 uppercase mb-1.5">Tài liệu đã chọn</label>
+          <div id="drawer-cart-items" class="space-y-2 max-h-60 overflow-y-auto"></div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Mục đích mượn / Ghi chú</label>
+          <input id="drawer-borrow-note" type="text" placeholder="Nhập ghi chú phiếu mượn (nếu có)..." class="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-xs" />
+        </div>
+
+        <div class="pt-3 border-t border-slate-200">
+          <button type="submit" class="w-full py-3.5 rounded-xl bg-indigo-950 hover:bg-indigo-900 text-white font-bold text-sm shadow-md transition">
+            Xác Nhận Lập Phiếu Mượn Sách
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL 3: ĐĂNG NHẬP THẺ ĐỘC GIẢ (CHUẨN THỰC TẾ - KHÔNG GỢI Ý DANH SÁCH THẺ) -->
+  <div id="modal-reader-login" class="hidden fixed inset-0 z-50 bg-slate-950/60 backdrop-blur-xs flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-md w-full p-6 sm:p-8 shadow-2xl border border-slate-200 space-y-5">
+      <div class="flex items-start justify-between">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-indigo-950 text-amber-300 flex items-center justify-center text-lg">
+            <i class="fa-regular fa-id-card"></i>
+          </div>
+          <div>
+            <h3 class="text-lg font-extrabold text-slate-900">Đăng Nhập Cổng Độc Giả</h3>
+            <p class="text-xs text-slate-500">Xác thực Thẻ thư viện để mượn và theo dõi tài liệu</p>
+          </div>
+        </div>
+        <button onclick="closeReaderLoginModal()" class="w-8 h-8 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-600"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+
+      <div id="reader-login-error" class="hidden p-3.5 rounded-xl bg-rose-50 border border-rose-200 text-xs text-rose-800 flex items-start gap-2">
+        <i class="fa-solid fa-circle-exclamation text-rose-600 mt-0.5"></i>
+        <span id="reader-login-error-text"></span>
+      </div>
+
+      <form onsubmit="handleReaderLoginSubmit(event)" class="space-y-4">
+        <div>
+          <label class="block text-xs font-bold text-slate-700 uppercase mb-1.5">Mã thẻ độc giả hoặc Email (@gmail.com) *</label>
+          <div class="relative">
+            <i class="fa-regular fa-user absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400"></i>
+            <input id="reader-login-identifier" type="text" required autocomplete="off" placeholder="Nhập Mã thẻ (VD: DG001) hoặc Email @gmail.com"
+              class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-300 focus:border-indigo-900 outline-none text-sm" />
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-slate-700 uppercase mb-1.5">Mật khẩu thẻ thành viên *</label>
+          <div class="relative">
+            <i class="fa-solid fa-lock absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400"></i>
+            <input id="reader-login-password" type="password" required placeholder="Nhập mật khẩu của bạn"
+              class="w-full pl-10 pr-10 py-2.5 rounded-xl border border-slate-300 focus:border-indigo-900 outline-none text-sm" />
+            <button type="button" onclick="togglePasswordVisibility('reader-login-password', this)" class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700 text-sm">
+              <i class="fa-regular fa-eye"></i>
+            </button>
+          </div>
+        </div>
+
+        <button type="submit" class="w-full py-3 rounded-xl bg-indigo-950 hover:bg-indigo-900 text-white font-bold text-sm shadow-md transition">
+          Đăng Nhập Thẻ Thư Viện
+        </button>
+      </form>
+
+      <div class="pt-4 border-t border-slate-100 text-center text-xs text-slate-600">
+        Bạn chưa có thẻ độc giả thư viện?
+        <button type="button" onclick="closeReaderLoginModal(); navigatePublicPage('register-card');" class="font-bold text-indigo-900 hover:underline ml-1">
+          Đăng ký mở thẻ mới tại đây
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCRIPTS -->
+  <script src="books-data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

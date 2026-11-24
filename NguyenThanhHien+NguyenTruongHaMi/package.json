@@ -1,0 +1,18 @@
+{
+  "name": "quan-ly-thu-vien-cnpm",
+  "version": "2.0.0",
+  "description": "Đề tài 1.1 Thiết kế Phần mềm Quản lý Thư viện - Học phần Công Nghệ Phần Mềm",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": [
+    "library-management",
+    "cnpm",
+    "de-tai-1.1",
+    "sql-server"
+  ],
+  "author": "Nguyễn Thanh Hiền & Nguyễn Trương Hà Mi",
+  "license": "ISC"
+}
